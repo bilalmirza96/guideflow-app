@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <GridOverlay />
       <div className="flex pt-[52px] min-h-screen relative z-[1]">
         <Sidebar />
-        <main className="ml-[220px] flex-1 px-14 py-7 max-w-[1040px] relative z-[2]">
+        <main className="ml-[240px] flex-1 px-16 py-9 max-w-[1080px] relative z-[2]">
           {children}
         </main>
       </div>

@@ -15,20 +15,20 @@ export function TopNav() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 h-[52px] z-[200] backdrop-blur-[12px] border-b border-[var(--gf-border)] flex items-center px-10 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 h-[52px] z-[200] backdrop-blur-[14px] border-b border-[var(--gf-border)] flex items-center px-10"
       style={{
         background:
           theme === 'dark'
-            ? 'rgba(19, 19, 19, 0.92)'
-            : 'rgba(255, 255, 255, 0.92)',
+            ? 'rgba(10, 10, 10, 0.92)'
+            : 'rgba(250, 250, 248, 0.92)',
+        transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)',
       }}
     >
       {/* Left: Logo + Service Switcher */}
       <div className="flex items-center gap-10 mr-auto flex-shrink-0">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-[10px] whitespace-nowrap">
-          <div className="w-[27px] h-[27px] bg-[var(--text-1)] rounded-[7px] flex items-center justify-center flex-shrink-0">
-            <span className="font-serif text-[13px] font-semibold text-[var(--bg)] leading-[1]">
+          <div className="w-[27px] h-[27px] bg-[var(--ac-orange)] rounded-[7px] flex items-center justify-center flex-shrink-0">
+            <span className="font-serif text-[13px] font-semibold text-[#0A0A0A] leading-[1]">
               G
             </span>
           </div>
@@ -40,32 +40,38 @@ export function TopNav() {
           </span>
         </Link>
 
-        {/* Service Switcher Dropdown */}
         <div className="relative group">
-          <button className="flex items-center gap-1.5 px-1.5 py-1 rounded-[6px] text-[15px] font-normal text-[var(--text-2)] transition-colors duration-140 group-hover:text-[var(--text-1)] group-hover:bg-[var(--accent-dim2)]">
+          <button
+            className="flex items-center gap-1.5 px-1.5 py-1 rounded-[6px] text-[15px] font-normal text-[var(--text-2)] group-hover:text-[var(--text-1)] group-hover:bg-[var(--accent-dim2)]"
+            style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+          >
             <span className="whitespace-nowrap">Service</span>
             <svg
-              className="w-[11px] h-[11px] opacity-40 transition-transform duration-200 group-hover:opacity-80 group-hover:-rotate-180"
+              className="w-[11px] h-[11px] opacity-40 group-hover:opacity-80 group-hover:-rotate-180"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 10 6"
             >
-              <path
-                d="M1 1l4 4 4-4"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
+              <path d="M1 1l4 4 4-4" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
-          <div className="absolute top-[calc(100%+10px)] left-0 min-w-[210px] bg-[var(--bg-raised)] border border-[var(--gf-border-hi)] rounded-[12px] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform transition-all duration-170 group-hover:translate-y-0 -translate-y-2 scale-[0.975] group-hover:scale-100 shadow-lg z-[300]">
-            <div className="text-xs font-semibold letter-spacing-[0.11em] uppercase text-[var(--text-3)] px-2.5 py-1.5">
+          <div
+            className="absolute top-[calc(100%+10px)] left-0 min-w-[210px] bg-[var(--bg-raised)] border border-[var(--gf-border-hi)] rounded-[14px] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-2 group-hover:translate-y-0 scale-[0.975] group-hover:scale-100 z-[300]"
+            style={{
+              boxShadow: 'var(--shadow-lg)',
+              transition: 'all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1)',
+            }}
+          >
+            <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] px-2.5 py-1.5">
               Services
             </div>
             <a
               href="#"
-              className="flex items-center gap-2 px-2.5 py-2 rounded-[7px] text-[15.5px] font-normal text-[var(--text-2)] hover:bg-[var(--accent-dim2)] hover:text-[var(--text-1)] transition-colors duration-120"
+              className="flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-3)]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--ac-orange)]" />
               <span>Current</span>
             </a>
           </div>
@@ -74,176 +80,129 @@ export function TopNav() {
 
       {/* Center: Nav Items */}
       <div className="flex items-center flex-1">
-        {/* Rotation */}
         <Link
           href="/rotation"
-          className={`relative px-3 py-1.5 text-[16px] font-normal rounded-[6px] transition-colors duration-140 ${
+          className={`relative px-3 py-1.5 text-[15px] font-normal rounded-[6px] ${
             isActive('/rotation')
               ? 'text-[var(--text-1)]'
               : 'text-[var(--text-2)] hover:text-[var(--text-1)]'
           }`}
+          style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
         >
           Rotation
           {isActive('/rotation') && (
-            <div className="absolute bottom-[-16px] left-3 right-3 h-[1px] bg-[var(--text-1)]" />
+            <div className="absolute bottom-[-16px] left-3 right-3 h-[2px] bg-[var(--ac-orange)] rounded-full" />
           )}
         </Link>
 
-        {/* Analytics Dropdown */}
         <div className="relative group">
           <button
-            className={`flex items-center gap-1 px-3 py-1.5 text-[16px] font-normal rounded-[6px] transition-colors duration-140 ${
-              isActive('/case-logs') ||
-              isActive('/fellowship') ||
-              isActive('/heatmap')
+            className={`flex items-center gap-1 px-3 py-1.5 text-[15px] font-normal rounded-[6px] ${
+              isActive('/case-logs') || isActive('/fellowship') || isActive('/heatmap')
                 ? 'text-[var(--text-1)]'
                 : 'text-[var(--text-2)] group-hover:text-[var(--text-1)]'
             }`}
+            style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
           >
             <span>Analytics</span>
             <svg
-              className="w-[10px] h-[10px] opacity-45 transition-transform duration-200 group-hover:opacity-90 group-hover:-rotate-180"
+              className="w-[10px] h-[10px] opacity-45 group-hover:opacity-90 group-hover:-rotate-180"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 10 6"
             >
-              <path
-                d="M1 1l4 4 4-4"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
+              <path d="M1 1l4 4 4-4" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
-          {(isActive('/case-logs') ||
-            isActive('/fellowship') ||
-            isActive('/heatmap')) && (
-            <div className="absolute bottom-[-16px] left-3 right-3 h-[1px] bg-[var(--text-1)]" />
+          {(isActive('/case-logs') || isActive('/fellowship') || isActive('/heatmap')) && (
+            <div className="absolute bottom-[-16px] left-3 right-3 h-[2px] bg-[var(--ac-orange)] rounded-full" />
           )}
-          <div className="absolute top-[calc(100%+10px)] left-0 min-w-[208px] bg-[var(--bg-raised)] border border-[var(--gf-border-hi)] rounded-[12px] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform transition-all duration-170 group-hover:translate-y-0 -translate-y-2 scale-[0.975] group-hover:scale-100 shadow-lg z-[300]">
-            <Link
-              href="/case-logs"
-              className={`flex items-center gap-2 px-2.5 py-2 rounded-[7px] text-[15.5px] font-normal transition-colors duration-120 ${
-                isActive('/case-logs')
-                  ? 'bg-[var(--accent-dim2)] text-[var(--text-1)] font-medium'
-                  : 'text-[var(--text-2)] hover:bg-[var(--accent-dim2)] hover:text-[var(--text-1)]'
-              }`}
-            >
-              <div
-                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                  isActive('/case-logs')
-                    ? 'bg-[var(--text-1)]'
-                    : 'bg-[var(--text-3)]'
+          <div
+            className="absolute top-[calc(100%+10px)] left-0 min-w-[208px] bg-[var(--bg-raised)] border border-[var(--gf-border-hi)] rounded-[14px] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-2 group-hover:translate-y-0 scale-[0.975] group-hover:scale-100 z-[300]"
+            style={{
+              boxShadow: 'var(--shadow-lg)',
+              transition: 'all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1)',
+            }}
+          >
+            {[
+              { href: '/case-logs', label: 'Case Logs' },
+              { href: '/fellowship', label: 'Fellowship' },
+              { href: '/heatmap', label: 'Heatmap' },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal ${
+                  isActive(item.href)
+                    ? 'bg-[rgba(212,165,116,0.12)] text-[var(--text-1)] font-medium'
+                    : 'text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]'
                 }`}
-              />
-              <span>Case Logs</span>
-            </Link>
-            <Link
-              href="/fellowship"
-              className={`flex items-center gap-2 px-2.5 py-2 rounded-[7px] text-[15.5px] font-normal transition-colors duration-120 ${
-                isActive('/fellowship')
-                  ? 'bg-[var(--accent-dim2)] text-[var(--text-1)] font-medium'
-                  : 'text-[var(--text-2)] hover:bg-[var(--accent-dim2)] hover:text-[var(--text-1)]'
-              }`}
-            >
-              <div
-                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                  isActive('/fellowship')
-                    ? 'bg-[var(--text-1)]'
-                    : 'bg-[var(--text-3)]'
-                }`}
-              />
-              <span>Fellowship</span>
-            </Link>
-            <Link
-              href="/heatmap"
-              className={`flex items-center gap-2 px-2.5 py-2 rounded-[7px] text-[15.5px] font-normal transition-colors duration-120 ${
-                isActive('/heatmap')
-                  ? 'bg-[var(--accent-dim2)] text-[var(--text-1)] font-medium'
-                  : 'text-[var(--text-2)] hover:bg-[var(--accent-dim2)] hover:text-[var(--text-1)]'
-              }`}
-            >
-              <div
-                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                  isActive('/heatmap')
-                    ? 'bg-[var(--text-1)]'
-                    : 'bg-[var(--text-3)]'
-                }`}
-              />
-              <span>Heatmap</span>
-            </Link>
+                style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+              >
+                <div
+                  className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                    isActive(item.href) ? 'bg-[var(--ac-orange)]' : 'bg-[var(--text-3)]'
+                  }`}
+                />
+                <span>{item.label}</span>
+              </Link>
+            ))}
           </div>
         </div>
 
-        {/* Admin */}
         <Link
           href="/admin"
-          className={`relative px-3 py-1.5 text-[16px] font-normal rounded-[6px] transition-colors duration-140 ${
+          className={`relative px-3 py-1.5 text-[15px] font-normal rounded-[6px] ${
             isActive('/admin')
               ? 'text-[var(--text-1)]'
               : 'text-[var(--text-2)] hover:text-[var(--text-1)]'
           }`}
+          style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
         >
           Admin
           {isActive('/admin') && (
-            <div className="absolute bottom-[-16px] left-3 right-3 h-[1px] bg-[var(--text-1)]" />
+            <div className="absolute bottom-[-16px] left-3 right-3 h-[2px] bg-[var(--ac-orange)] rounded-full" />
           )}
         </Link>
       </div>
 
       {/* Right: Search, Theme Toggle, Login */}
-      <div className="flex items-center gap-2 ml-auto flex-shrink-0">
-        {/* Search Bar */}
-        <div className="flex items-center gap-1.5 bg-[var(--accent-dim)] border border-[var(--gf-border)] rounded-2 px-2.5 py-1.5 w-[180px] cursor-text transition-colors duration-140 hover:border-[var(--gf-border-hi)]">
-          <svg
-            className="w-4 h-4 text-[var(--text-3)] flex-shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
+      <div className="flex items-center gap-3 ml-auto flex-shrink-0">
+        <div
+          className="flex items-center gap-1.5 bg-[var(--accent-dim)] border border-[var(--gf-border)] rounded-lg px-3 py-1.5 w-[200px] cursor-text hover:border-[var(--gf-border-hi)]"
+          style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+        >
+          <svg className="w-3.5 h-3.5 text-[var(--text-3)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <span className="text-[15px] text-[var(--text-3)] flex-1">
-            Search
-          </span>
-          <div className="text-[10.5px] text-[var(--text-3)] bg-[var(--bg)] border border-[var(--gf-border-hi)] rounded px-1 py-0.5 flex-shrink-0">
-            cmd K
+          <span className="text-[14px] text-[var(--text-3)] flex-1">Search...</span>
+          <div className="text-[10px] text-[var(--text-3)] bg-[var(--bg)] border border-[var(--gf-border-hi)] rounded px-1.5 py-0.5 flex-shrink-0 font-mono">
+            ⌘K
           </div>
         </div>
 
-        {/* Theme Toggle */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="w-[34px] h-[34px] rounded-lg border border-[var(--gf-border)] bg-transparent cursor-pointer grid place-items-center text-[var(--text-2)] transition-all duration-140 hover:border-[var(--gf-border-hi)] hover:text-[var(--text-1)] hover:bg-[var(--accent-dim2)]"
+          className="w-[34px] h-[34px] rounded-lg bg-transparent cursor-pointer grid place-items-center text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--accent-dim2)]"
+          style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
         >
           {theme === 'dark' ? (
-            <svg
-              className="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 3v1m6.364 1.636l-.707-.707M21 12h-1m-1.636 6.364l-.707.707M12 21v-1m-6.364-1.636l.707.707M3 12h1m1.636-6.364l.707-.707" />
-              <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" strokeWidth="2" />
+            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
             </svg>
           ) : (
-            <svg
-              className="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           )}
         </button>
 
-        {/* Login / Avatar */}
         <Link
           href="/login"
-          className="px-3.5 py-1.5 text-[15.5px] font-normal text-[var(--text-2)] bg-transparent border border-[var(--gf-border-hi)] rounded-lg cursor-pointer font-sans transition-all duration-140 hover:text-[var(--text-1)] hover:border-[var(--text-3)]"
+          className="px-3.5 py-1.5 text-[14px] font-normal text-[var(--text-2)] bg-transparent border border-[var(--gf-border-hi)] rounded-lg cursor-pointer font-sans hover:text-[var(--text-1)] hover:border-[var(--ac-orange)] hover:bg-[rgba(212,165,116,0.12)]"
+          style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
         >
           Log In
         </Link>

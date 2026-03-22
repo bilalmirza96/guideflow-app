@@ -23,12 +23,15 @@ export function StatCard({
   };
 
   return (
-    <div className="bg-[var(--bg-raised)] border border-[var(--gf-border)] rounded-xl px-5 py-5 relative z-[2]">
-      <div className="block text-[10px] font-semibold letter-spacing-[0.1em] uppercase text-[var(--text-3)] mb-2">
+    <div
+      className="bg-[var(--bg-raised)] border border-[var(--gf-border)] rounded-2xl px-6 py-6 relative z-[2] hover:border-[var(--gf-border-hi)]"
+      style={{ transition: 'all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+    >
+      <div className="block text-[10px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] mb-2.5">
         {label}
       </div>
       <div className="flex items-baseline gap-1">
-        <div className="font-serif text-[26px] font-medium text-[var(--text-1)] tracking-[-1px] leading-[1]">
+        <div className="font-serif text-[28px] font-medium text-[var(--text-1)] tracking-[-1px] leading-[1]">
           {value}
         </div>
         {denominator && (
@@ -38,11 +41,14 @@ export function StatCard({
         )}
       </div>
       {percentage !== undefined && percentage > 0 && (
-        <div className="mt-2.5">
+        <div className="mt-3">
           <div className="h-[3px] bg-[var(--prog-bg)] rounded-full overflow-hidden">
             <div
               className={cn('h-full rounded-full', colorMap[barColor])}
-              style={{ width: `${Math.min(percentage, 100)}%` }}
+              style={{
+                width: `${Math.min(percentage, 100)}%`,
+                transition: 'width 0.5s cubic-bezier(0.215, 0.61, 0.355, 1)',
+              }}
             />
           </div>
         </div>

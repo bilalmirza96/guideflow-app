@@ -104,7 +104,6 @@ export function Sidebar() {
       ];
     }
 
-    // Default for other routes
     return [
       {
         label: 'Quick Links',
@@ -119,10 +118,10 @@ export function Sidebar() {
   const isActiveLink = (href: string) => pathname === href || pathname.startsWith(href + '/') || pathname.startsWith(href + '?');
 
   return (
-    <aside className="w-[220px] bg-[var(--bg)] border-r border-[var(--gf-border)] fixed top-[52px] bottom-0 left-0 overflow-y-auto py-6 z-[2]">
+    <aside className="w-[240px] bg-[var(--bg)] border-r border-[var(--gf-border)] fixed top-[52px] bottom-0 left-0 overflow-y-auto py-8 z-[2]">
       {sections.map((section, idx) => (
-        <div key={idx} className="px-2">
-          <div className="text-xs font-medium text-[var(--text-3)] px-2 pt-[18px] pb-2">
+        <div key={idx} className={cn('px-3', idx > 0 && 'mt-6')}>
+          <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] px-3 pb-3">
             {section.label}
           </div>
           <div className="space-y-0.5">
@@ -131,11 +130,13 @@ export function Sidebar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'block w-full py-[9px] px-3 rounded-lg text-[15px] transition-colors duration-120',
+                  'block w-full py-[8px] px-3 rounded-lg text-[14px] transition-all duration-300',
+                  'hover:text-[var(--text-1)]',
                   isActiveLink(link.href)
-                    ? 'bg-[var(--accent-dim2)] text-[var(--text-1)] font-medium'
-                    : 'text-[var(--text-2)] hover:bg-[var(--accent-dim2)] hover:text-[var(--text-1)]'
+                    ? 'bg-[rgba(212,165,116,0.12)] text-[var(--text-1)] font-medium border-l-2 border-[var(--ac-orange)] pl-[10px]'
+                    : 'text-[var(--text-2)] hover:bg-[var(--accent-dim2)] border-l-2 border-transparent'
                 )}
+                style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
               >
                 {link.label}
               </Link>
