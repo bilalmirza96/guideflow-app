@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(src/**)",
+      "Write(docs/**)",
+      "Write(tasks/**)",
+      "Bash(npm run *)",
+      "Bash(npx drizzle-kit *)",
+      "Bash(git *)"
+    ],
+    "deny": [
+      "Write(.env*)",
+      "Bash(rm -rf /)"
+    ]
+  },
+  "env": {}
+}

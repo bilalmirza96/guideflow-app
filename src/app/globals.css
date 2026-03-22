@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 18 8% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 18 8% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 18 8% 8%;
+    --primary: 22 65% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 37% 52%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 12% 95%;
+    --muted-foreground: 18 4% 40%;
+    --accent: 30 12% 95%;
+    --accent-foreground: 18 8% 8%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 12% 90%;
+    --input: 30 12% 85%;
+    --ring: 22 65% 53%;
+    --radius: 0.75rem;
+
+    /* GuideFlow custom tokens (light) */
+    --bg: #FFFFFF;
+    --bg-raised: #FFFFFF;
+    --bg-hover: #F5F3F0;
+    --gf-border: #E8E2D9;
+    --gf-border-hi: #D6CFC4;
+    --text-1: #141210;
+    --text-2: #6B6560;
+    --text-3: #9E9890;
+    --ac-orange: #D07040;
+    --ac-blue: #5585B0;
+    --ac-green: #688548;
+    --ac-orange-dim: rgba(208,112,64,0.09);
+    --ac-blue-dim: rgba(85,133,176,0.09);
+    --ac-green-dim: rgba(104,133,72,0.09);
+    --ac-orange-soft: rgba(208,112,64,0.4);
+    --ac-blue-soft: rgba(85,133,176,0.4);
+    --ac-green-soft: rgba(104,133,72,0.4);
+    --grid-line: rgba(0,0,0,0.04);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 32px rgba(0,0,0,0.09);
+    --shadow-lg: 0 24px 80px rgba(0,0,0,0.11);
+    --grain-op: 0.018;
+    --prog-bg: rgba(20,18,16,0.07);
+    --prog-fill: rgba(20,18,16,0.65);
+    --accent-dim: rgba(20,18,16,0.04);
+    --accent-dim2: rgba(20,18,16,0.08);
+    --chart-bar: rgba(85,133,176,0.38);
+    --chart-bar-hi: rgba(85,133,176,0.65);
+    --chart-donut-fill: #D07040;
+    --chart-donut-bg: rgba(20,18,16,0.06);
+    --chart-role-sc: #D07040;
+    --chart-role-sj: #5585B0;
+    --chart-role-ta: #688548;
+    --chart-role-fa: #9E9890;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 30 18% 92%;
+    --card: 0 0% 10%;
+    --card-foreground: 30 18% 92%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 30 18% 92%;
+    --primary: 22 73% 67%;
+    --primary-foreground: 0 0% 7%;
+    --secondary: 207 55% 71%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 30 8% 74%;
+    --accent: 0 0% 13%;
+    --accent-foreground: 30 18% 92%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 30 18% 92%;
+    --border: 0 0% 16%;
+    --input: 0 0% 21%;
+    --ring: 22 73% 67%;
+    --radius: 0.75rem;
+
+    /* GuideFlow custom tokens (dark) */
+    --bg: #131313;
+    --bg-raised: #1A1A1A;
+    --bg-hover: #222222;
+    --gf-border: #2A2A2A;
+    --gf-border-hi: #363636;
+    --text-1: #F0EBE3;
+    --text-2: #C4BDB4;
+    --text-3: #666260;
+    --ac-orange: #E8956F;
+    --ac-blue: #8BB8E0;
+    --ac-green: #9AB87A;
+    --ac-orange-dim: rgba(232,149,111,0.13);
+    --ac-blue-dim: rgba(139,184,224,0.13);
+    --ac-green-dim: rgba(154,184,122,0.13);
+    --ac-orange-soft: rgba(232,149,111,0.5);
+    --ac-blue-soft: rgba(139,184,224,0.5);
+    --ac-green-soft: rgba(154,184,122,0.5);
+    --grid-line: rgba(255,255,255,0.03);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
+    --shadow-md: 0 8px 32px rgba(0,0,0,0.65);
+    --shadow-lg: 0 24px 80px rgba(0,0,0,0.8);
+    --grain-op: 0.035;
+    --prog-bg: rgba(240,235,227,0.08);
+    --prog-fill: rgba(240,235,227,0.55);
+    --accent-dim: rgba(240,235,227,0.05);
+    --accent-dim2: rgba(240,235,227,0.09);
+    --chart-bar: rgba(139,184,224,0.45);
+    --chart-bar-hi: rgba(139,184,224,0.75);
+    --chart-donut-fill: #E8956F;
+    --chart-donut-bg: rgba(240,235,227,0.07);
+    --chart-role-sc: #E8956F;
+    --chart-role-sj: #8BB8E0;
+    --chart-role-ta: #9AB87A;
+    --chart-role-fa: #C4BDB4;
+  }
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: var(--grain-op);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gf-border-hi); border-radius: 3px; }
+
+/* FadeUp animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(13px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground font-sans antialiased; }
+}

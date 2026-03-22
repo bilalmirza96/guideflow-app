@@ -1,0 +1,125 @@
+<!-- TOGGLE SECTION: Log Type Selection -->
+<div class="log-toggle" id="log-toggle">
+  <button class="log-toggle-btn active" id="toggle-operative" onclick="switchLogType('operative')">Operative Case</button>
+  <button class="log-toggle-btn" id="toggle-bedside" onclick="switchLogType('bedside')">Bedside Procedure</button>
+</div>
+
+<!-- OPERATIVE CASE FORM (default visible) -->
+<div id="operative-form">
+  <!-- Existing form fields preserved here -->
+  <!-- After the Role field, add AUTONOMY section -->
+  
+  <!-- AUTONOMY SECTION: Operative Autonomy Field -->
+  <div class="field" id="field-autonomy">
+    <label class="field-label">Operative Autonomy Given</label>
+    <select id="f-autonomy">
+      <option value="">-- Select --</option>
+      <option value="show-tell">Show &amp; Tell — Attending demonstrated</option>
+      <option value="active-assist">Active Assistance — Attending guided throughout</option>
+      <option value="passive-help">Passive Help — I led, attending assisted when needed</option>
+      <option value="supervision">Supervision Only — I led, attending observed</option>
+      <option value="solo">Solo — Unsupervised</option>
+    </select>
+  </div>
+</div>
+
+<!-- BEDSIDE SECTION: Bedside Procedure Form (hidden by default) -->
+<div id="bedside-form" style="display:none">
+  <!-- Row 1: Procedure Type & Site/Laterality -->
+  <div class="form-grid-2">
+    <div class="field">
+      <label class="field-label">Procedure Type</label>
+      <select id="f-bedside-procedure">
+        <option value="">-- Select --</option>
+        <option value="cvc-ij">Central Line (IJ)</option>
+        <option value="cvc-subclavian">Central Line (Subclavian)</option>
+        <option value="cvc-femoral">Central Line (Femoral)</option>
+        <option value="art-radial">Arterial Line (Radial)</option>
+        <option value="art-femoral">Arterial Line (Femoral)</option>
+        <option value="chest-tube">Chest Tube</option>
+        <option value="thoracentesis">Thoracentesis</option>
+        <option value="paracentesis">Paracentesis</option>
+        <option value="wound-vac">Wound VAC</option>
+        <option value="abscess-id">Abscess I&D</option>
+        <option value="trach-care">Tracheostomy Care</option>
+        <option value="gj-tube">G/J-Tube Management</option>
+        <option value="drain-mgmt">Drain Management</option>
+      </select>
+    </div>
+    
+    <div class="field">
+      <label class="field-label">Site/Laterality</label>
+      <select id="f-bedside-site">
+        <option value="">-- Select --</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+        <option value="midline">Midline</option>
+        <option value="na">N/A</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Row 2: Ultrasound-Guided, Supervised, Complications -->
+  <div class="form-grid-3">
+    <div class="field field-checkbox-container">
+      <label class="field-label">Ultrasound-Guided</label>
+      <div class="checkbox-wrapper">
+        <input type="checkbox" id="f-bedside-ultrasound" class="styled-checkbox">
+        <label for="f-bedside-ultrasound" class="checkbox-label"></label>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="field-label">Supervised</label>
+      <select id="f-bedside-supervised">
+        <option value="">-- Select --</option>
+        <option value="supervised">Supervised</option>
+        <option value="independent">Independent</option>
+      </select>
+    </div>
+    
+    <div class="field">
+      <label class="field-label">Complications</label>
+      <select id="f-bedside-complications">
+        <option value="">-- Select --</option>
+        <option value="none">None</option>
+        <option value="minor">Minor</option>
+        <option value="major">Major</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Row 3: Date & Attending -->
+  <div class="form-grid-2">
+    <div class="field">
+      <label class="field-label">Date</label>
+      <input type="date" id="f-bedside-date">
+    </div>
+    
+    <div class="field">
+      <label class="field-label">Attending</label>
+      <input type="text" id="f-bedside-attending" placeholder="Attending name">
+    </div>
+  </div>
+
+  <!-- Comments -->
+  <div class="field">
+    <label class="field-label">Comments</label>
+    <textarea id="f-bedside-comments" placeholder="Additional notes..."></textarea>
+  </div>
+
+  <!-- Submit Button -->
+  <button class="btn-primary" onclick="submitBedside()">Log Procedure</button>
+</div>
+
+<!-- DICTATE SECTION: Voice Dictation Button -->
+<!-- This button is intended for placement in the panel header -->
+<button class="sec-action" id="btn-dictate" onclick="openDictation()">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+    <line x1="12" y1="19" x2="12" y2="23"/>
+    <line x1="8" y1="23" x2="16" y2="23"/>
+  </svg>
+  Dictate
+</button>

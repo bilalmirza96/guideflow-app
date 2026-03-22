@@ -1,0 +1,182 @@
+<div class="page" id="page-heatmap">
+  <div class="main">
+    <!-- Eyebrow and Title -->
+    <div style="margin-bottom: 32px;">
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;">
+        PGY-1 · General Surgery
+      </div>
+      <h1 style="font-family: 'Lora', serif; font-size: 38px; font-weight: 500; color: var(--text-1); letter-spacing: -0.8px; margin: 0 0 12px 0;">
+        Operative Autonomy Map
+      </h1>
+      <p style="font-size: 15px; color: var(--text-2); margin: 0 0 24px 0;">
+        Competency assessed by attendings. Autonomy reflects what actually happened in the OR.
+      </p>
+
+      <!-- Legend Strip -->
+      <div style="display: flex; gap: 24px; margin-bottom: 32px; align-items: center;">
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="width: 12px; height: 12px; background: var(--ac-green); border-radius: 3px;"></div>
+          <span style="font-size: 12px; color: var(--text-2);">Near independent</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="width: 12px; height: 12px; background: var(--ac-green-soft); border-radius: 3px;"></div>
+          <span style="font-size: 12px; color: var(--text-2);">Minimal help</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="width: 12px; height: 12px; background: var(--ac-blue-soft); border-radius: 3px;"></div>
+          <span style="font-size: 12px; color: var(--text-2);">Active help</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="width: 12px; height: 12px; background: var(--ac-orange-soft); border-radius: 3px;"></div>
+          <span style="font-size: 12px; color: var(--text-2);">Early</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="width: 12px; height: 12px; background: rgba(220, 80, 60, 0.3); border-radius: 3px;"></div>
+          <span style="font-size: 12px; color: var(--text-2);">Not yet done</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center; margin-left: 16px; color: var(--text-3);">
+          <span style="font-size: 11px;">● Inner dot = Autonomy given</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heatmap Grid -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px;">
+      <!-- Lap Cholecystectomy - Level 4, Autonomy 4 -->
+      <div style="background: var(--ac-green-dim); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Lap Cholecystectomy</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 4 · 12 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-green); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Inguinal Hernia - Level 3, Autonomy 2 -->
+      <div style="background: var(--ac-blue-dim); border: 1px solid rgba(33, 150, 243, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Inguinal Hernia</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 3 · 8 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Appendectomy - Level 4, Autonomy 4 -->
+      <div style="background: var(--ac-green-dim); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Appendectomy</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 4 · 6 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-green); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Sigmoid Colectomy - Level 2, Autonomy 2 -->
+      <div style="background: var(--ac-orange-dim); border: 1px solid rgba(255, 152, 0, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Sigmoid Colectomy</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 2 · 3 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Right Hemicolectomy - Level 2, Autonomy 1 -->
+      <div style="background: rgba(220, 80, 60, 0.08); border: 1px solid rgba(220, 80, 60, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Right Hemicolectomy</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 2 · 2 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Exploratory Lap - Level 3, Autonomy 3 -->
+      <div style="background: var(--ac-blue-dim); border: 1px solid rgba(33, 150, 243, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Exploratory Lap</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 3 · 5 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-blue-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Thyroidectomy - Level 3, Autonomy 2 -->
+      <div style="background: var(--ac-blue-dim); border: 1px solid rgba(33, 150, 243, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Thyroidectomy</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 3 · 4 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Whipple - Level 1, Autonomy 1 -->
+      <div style="background: rgba(220, 80, 60, 0.08); border: 1px solid rgba(220, 80, 60, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Whipple</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 1 · 1 assessment</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Liver Resection - Level 1, Autonomy 1 -->
+      <div style="background: rgba(220, 80, 60, 0.08); border: 1px solid rgba(220, 80, 60, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Liver Resection</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 1 · 1 assessment</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Hartmann's - Level 2, Autonomy 2 -->
+      <div style="background: var(--ac-orange-dim); border: 1px solid rgba(255, 152, 0, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Hartmann's</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 2 · 2 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Nissen Fundoplication - Level 2, Autonomy 1 -->
+      <div style="background: rgba(220, 80, 60, 0.08); border: 1px solid rgba(220, 80, 60, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Nissen Fundoplication</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 2 · 1 assessment</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-orange); border-radius: 50%;"></div>
+      </div>
+
+      <!-- TAPP Hernia - Level 3, Autonomy 3 -->
+      <div style="background: var(--ac-blue-dim); border: 1px solid rgba(33, 150, 243, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">TAPP Hernia</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 3 · 4 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-blue-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- EGD - Level 4, Autonomy 4 -->
+      <div style="background: var(--ac-green-dim); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">EGD</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 4 · 14 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-green); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Colonoscopy - Level 3, Autonomy 3 -->
+      <div style="background: var(--ac-blue-dim); border: 1px solid rgba(33, 150, 243, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Colonoscopy</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 3 · 9 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-blue-soft); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Central Line - Level 5, Autonomy 5 -->
+      <div style="background: var(--ac-green-dim); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Central Line</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 5 · 22 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-green); border-radius: 50%;"></div>
+      </div>
+
+      <!-- Chest Tube - Level 4, Autonomy 3 -->
+      <div style="background: var(--ac-green-dim); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; padding: 14px; position: relative; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 4px;">Chest Tube</div>
+        <div style="font-size: 12px; color: var(--text-3);">Level 4 · 8 assessments</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 8px; height: 8px; background: var(--ac-blue-soft); border-radius: 50%;"></div>
+      </div>
+    </div>
+
+    <!-- Divergence Alerts Panel -->
+    <div style="margin-bottom: 32px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: var(--ac-orange);">
+          <path d="M12 2L1 21h22L12 2zm1 16h-2v2h2v-2zm0-5h-2v5h2v-5z"/>
+        </svg>
+        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3);">
+          Divergence Signals
+        </div>
+      </div>
+
+      <div style="background: var(--ac-orange-dim); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px;">
+        <div style="font-size: 14px; color: var(--text-1);">
+          <span style="color: var(--ac-orange); font-weight: 600;">⚠</span> <strong>Inguinal Hernia</strong> — You are assessed at Level 3 but received Level 2 autonomy in 6 of 8 cases. You may be underutilized.
+        </div>
+      </div>
+
+      <div style="background: var(--ac-orange-dim); border-radius: 8px; padding: 12px 16px;">
+        <div style="font-size: 14px; color: var(--text-1);">
+          <span style="color: var(--ac-orange); font-weight: 600;">⚠</span> <strong>Chest Tube</strong> — You are assessed at Level 4 but received Level 3 autonomy. Discuss with your attending.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
