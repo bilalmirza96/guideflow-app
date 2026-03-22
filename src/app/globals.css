@@ -43,7 +43,7 @@
     --ac-orange-soft: rgba(192,128,80,0.35);
     --ac-blue-soft: rgba(107,144,176,0.35);
     --ac-green-soft: rgba(122,148,96,0.35);
-    --grid-line: rgba(0,0,0,0.03);
+    --grid-line: rgba(0,0,0,0.045);
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
     --shadow-lg: 0 16px 60px rgba(0,0,0,0.08);
@@ -109,7 +109,7 @@
     --ac-orange-soft: rgba(212,165,116,0.45);
     --ac-blue-soft: rgba(138,174,200,0.45);
     --ac-green-soft: rgba(154,184,122,0.45);
-    --grid-line: rgba(255,255,255,0.02);
+    --grid-line: rgba(255,255,255,0.035);
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.6);
     --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
     --shadow-lg: 0 16px 60px rgba(0,0,0,0.7);

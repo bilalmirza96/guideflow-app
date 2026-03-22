@@ -3,13 +3,10 @@
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useState } from 'react';
 
 export function TopNav() {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
-  const [serviceOpen, setServiceOpen] = useState(false);
-  const [analyticsOpen, setAnalyticsOpen] = useState(false);
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/');
 
@@ -25,7 +22,7 @@ export function TopNav() {
       }}
     >
       {/* Left: Logo + Service Switcher */}
-      <div className="flex items-center gap-10 mr-auto flex-shrink-0">
+      <div className="flex items-center gap-10 mr-6 flex-shrink-0">
         <Link href="/" className="flex items-center gap-[10px] whitespace-nowrap">
           <div className="w-[27px] h-[27px] bg-[var(--ac-orange)] rounded-[7px] flex items-center justify-center flex-shrink-0">
             <span className="font-serif text-[13px] font-semibold text-[#0A0A0A] leading-[1]">
@@ -45,7 +42,7 @@ export function TopNav() {
             className="flex items-center gap-1.5 px-1.5 py-1 rounded-[6px] text-[15px] font-normal text-[var(--text-2)] group-hover:text-[var(--text-1)] group-hover:bg-[var(--accent-dim2)]"
             style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
           >
-            <span className="whitespace-nowrap">Service</span>
+            <span className="whitespace-nowrap">General Surgery</span>
             <svg
               className="w-[11px] h-[11px] opacity-40 group-hover:opacity-80 group-hover:-rotate-180"
               style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
@@ -66,14 +63,21 @@ export function TopNav() {
             <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] px-2.5 py-1.5">
               Services
             </div>
-            <a
-              href="#"
-              className="flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]"
-              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--ac-orange)]" />
-              <span>Current</span>
-            </a>
+            {['General Surgery', 'Medicine', 'Emergency Medicine', 'Urology', 'Cardiology', 'Neurology', 'NICU', 'Pharmacy', 'Palliative Care'].map((svc) => (
+              <a
+                key={svc}
+                href="#"
+                className={`flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal ${
+                  svc === 'General Surgery'
+                    ? 'bg-[rgba(212,165,116,0.12)] text-[var(--text-1)] font-medium'
+                    : 'text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]'
+                }`}
+                style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+              >
+                <div className={`w-1.5 h-1.5 rounded-full ${svc === 'General Surgery' ? 'bg-[var(--ac-orange)]' : 'bg-[var(--text-3)]'}`} />
+                <span>{svc}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
@@ -95,6 +99,106 @@ export function TopNav() {
           )}
         </Link>
 
+        {/* Guidelines Dropdown */}
+        <div className="relative group">
+          <button
+            className="flex items-center gap-1 px-3 py-1.5 text-[15px] font-normal rounded-[6px] text-[var(--text-2)] group-hover:text-[var(--text-1)]"
+            style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+          >
+            <span>Guidelines</span>
+            <svg
+              className="w-[10px] h-[10px] opacity-45 group-hover:opacity-90 group-hover:-rotate-180"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 10 6"
+            >
+              <path d="M1 1l4 4 4-4" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <div
+            className="absolute top-[calc(100%+10px)] left-0 min-w-[208px] bg-[var(--bg-raised)] border border-[var(--gf-border-hi)] rounded-[14px] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-2 group-hover:translate-y-0 scale-[0.975] group-hover:scale-100 z-[300]"
+            style={{
+              boxShadow: 'var(--shadow-lg)',
+              transition: 'all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1)',
+            }}
+          >
+            <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] px-2.5 py-1.5">
+              Specialties
+            </div>
+            {['Emergency', 'Surgery', 'Pharmacy', 'Neurology'].map((spec) => (
+              <a
+                key={spec}
+                href="#"
+                className="flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]"
+                style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-3)]" />
+                <span>{spec}</span>
+              </a>
+            ))}
+            <div className="h-px bg-[var(--gf-border)] mx-1 my-1" />
+            <a
+              href="#"
+              className="flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M9 3v18M3 9h18"/>
+              </svg>
+              <span>View All</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Directory Dropdown */}
+        <div className="relative group">
+          <button
+            className="flex items-center gap-1 px-3 py-1.5 text-[15px] font-normal rounded-[6px] text-[var(--text-2)] group-hover:text-[var(--text-1)]"
+            style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+          >
+            <span>Directory</span>
+            <svg
+              className="w-[10px] h-[10px] opacity-45 group-hover:opacity-90 group-hover:-rotate-180"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 10 6"
+            >
+              <path d="M1 1l4 4 4-4" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <div
+            className="absolute top-[calc(100%+10px)] left-0 min-w-[208px] bg-[var(--bg-raised)] border border-[var(--gf-border-hi)] rounded-[14px] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-2 group-hover:translate-y-0 scale-[0.975] group-hover:scale-100 z-[300]"
+            style={{
+              boxShadow: 'var(--shadow-lg)',
+              transition: 'all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1)',
+            }}
+          >
+            <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] px-2.5 py-1.5">
+              Contacts
+            </div>
+            <a
+              href="#"
+              className="flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-3)]" />
+              <span>On-Call Directory</span>
+            </a>
+            <a
+              href="#"
+              className="flex items-center gap-2 px-2.5 py-2 rounded-[8px] text-[14px] font-normal text-[var(--text-2)] hover:bg-[rgba(212,165,116,0.12)] hover:text-[var(--text-1)]"
+              style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-3)]" />
+              <span>Service Contacts</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Analytics Dropdown */}
         <div className="relative group">
           <button
             className={`flex items-center gap-1 px-3 py-1.5 text-[15px] font-normal rounded-[6px] ${
@@ -125,10 +229,13 @@ export function TopNav() {
               transition: 'all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1)',
             }}
           >
+            <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--text-3)] px-2.5 py-1.5">
+              Reports
+            </div>
             {[
               { href: '/case-logs', label: 'Case Logs' },
               { href: '/fellowship', label: 'Fellowship' },
-              { href: '/heatmap', label: 'Heatmap' },
+              { href: '/heatmap', label: 'Autonomy Map' },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -167,7 +274,7 @@ export function TopNav() {
         </Link>
       </div>
 
-      {/* Right: Search, Theme Toggle, Login */}
+      {/* Right: Search, Theme Toggle, Avatar */}
       <div className="flex items-center gap-3 ml-auto flex-shrink-0">
         <div
           className="flex items-center gap-1.5 bg-[var(--accent-dim)] border border-[var(--gf-border)] rounded-lg px-3 py-1.5 w-[200px] cursor-text hover:border-[var(--gf-border-hi)]"
@@ -199,13 +306,15 @@ export function TopNav() {
           )}
         </button>
 
-        <Link
-          href="/login"
-          className="px-3.5 py-1.5 text-[14px] font-normal text-[var(--text-2)] bg-transparent border border-[var(--gf-border-hi)] rounded-lg cursor-pointer font-sans hover:text-[var(--text-1)] hover:border-[var(--ac-orange)] hover:bg-[rgba(212,165,116,0.12)]"
-          style={{ transition: 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)' }}
+        {/* User Avatar */}
+        <div
+          className="w-[30px] h-[30px] rounded-full bg-[var(--text-1)] flex items-center justify-center cursor-pointer flex-shrink-0"
+          title="Dr. Resident"
         >
-          Log In
-        </Link>
+          <span className="text-[11px] font-semibold text-[var(--bg)] leading-[1]">
+            DR
+          </span>
+        </div>
       </div>
     </nav>
   );
