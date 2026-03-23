@@ -190,8 +190,8 @@ body.on-login .nav-app-parts{display:none!important;}body.on-login .nav-logo{mar
 .cases-table tbody tr{cursor:pointer;transition:background .12s;}.cases-table tbody tr:hover td{background:var(--bg-hover);color:var(--text-1);}
 .case-name{color:var(--text-1)!important;font-weight:400;}
 .role-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;}
-.role-badge.sc{background:var(--ac-orange-dim);color:var(--ac-orange);border:1px solid rgba(232,149,111,0.22);}
-.role-badge.sj{background:var(--ac-blue-dim);color:var(--ac-blue);border:1px solid rgba(139,184,224,0.22);}
+.role-badge.sc{background:var(--ac-orange-dim);color:var(--ac-orange);border:1px solid rgba(212,165,116,0.22);}
+.role-badge.sj{background:var(--ac-blue-dim);color:var(--ac-blue);border:1px solid rgba(138,174,200,0.22);}
 .role-badge.ta{background:var(--ac-green-dim);color:var(--ac-green);border:1px solid rgba(154,184,122,0.22);}
 .role-badge.fa{background:var(--accent-dim);color:var(--text-3);border:1px solid var(--border-hi);}
 .sec-action{font-size:13px;color:var(--text-2);display:flex;align-items:center;gap:4px;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;transition:color .14s,gap .14s;}.sec-action:hover{color:var(--text-1);gap:7px;}
@@ -216,7 +216,7 @@ body.on-login .nav-app-parts{display:none!important;}body.on-login .nav-logo{mar
 .login-divider{display:flex;align-items:center;gap:14px;margin:24px 0;}.login-divider-line{flex:1;height:1px;background:var(--border);}.login-divider-text{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
 .login-footer{text-align:center;}.login-footer-text{font-size:13px;font-weight:300;color:var(--text-3);}.login-footer-link{color:var(--ac-blue);text-decoration:none;border-bottom:1px solid var(--ac-blue-dim);padding-bottom:1px;transition:opacity .14s;}.login-footer-link:hover{opacity:.7;}
 .confirm-view{display:none;}.confirm-view.active{display:block;animation:fadeUp .45s ease both;}.login-form-inner.hidden{display:none;}
-.confirm-icon{width:56px;height:56px;border-radius:14px;background:var(--ac-blue-dim);border:1px solid rgba(139,184,224,0.2);display:grid;place-items:center;margin:0 auto 24px;}.confirm-icon svg{color:var(--ac-blue);}
+.confirm-icon{width:56px;height:56px;border-radius:14px;background:var(--ac-blue-dim);border:1px solid rgba(138,174,200,0.2);display:grid;place-items:center;margin:0 auto 24px;}.confirm-icon svg{color:var(--ac-blue);}
 .confirm-title{font-family:'Lora',serif;font-size:24px;font-weight:500;color:var(--text-1);text-align:center;margin-bottom:8px;}
 .confirm-sub{font-size:15px;font-weight:300;color:var(--text-2);text-align:center;margin-bottom:6px;}
 .confirm-email{font-size:15px;font-weight:500;color:var(--text-1);text-align:center;margin-bottom:24px;word-break:break-all;}
@@ -658,6 +658,30 @@ body.on-login .site-footer{display:none;}
 .deadline-date{font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums;}
 .deadline-date.urgent{color:var(--ac-orange);}
 
+/* ONBOARDING */
+.onb-wrapper{width:100%;max-width:480px;margin:0 auto;}
+.onb-progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;}
+.onb-progress-track{flex:1;height:3px;background:var(--border-hi);border-radius:2px;overflow:hidden;}
+.onb-progress-fill{height:100%;background:var(--ac-orange);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+.onb-progress-label{font-size:12px;color:var(--text-3);flex-shrink:0;font-variant-numeric:tabular-nums;}
+.onb-card{background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;padding:40px 36px 36px;box-shadow:var(--shadow-lg);}
+.onb-step-title{font-family:'Lora',serif;font-size:24px;font-weight:500;color:var(--text-1);margin-bottom:8px;letter-spacing:-.4px;}
+.onb-step-sub{font-size:14px;font-weight:300;color:var(--text-2);line-height:1.55;margin-bottom:28px;}
+.onb-nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px;}
+.onb-back{font-size:13px;color:var(--text-3);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0;transition:color .14s;}
+.onb-back:hover{color:var(--text-1);}
+.onb-continue{flex:1;margin-left:16px;padding:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:#fff;background:var(--ac-orange);border:none;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.onb-continue:hover{opacity:.88;}
+.onb-continue:disabled{opacity:.4;cursor:not-allowed;}
+.onb-skip-link{display:block;text-align:center;font-size:13px;color:var(--text-3);margin-top:14px;cursor:pointer;transition:color .14s;background:none;border:none;font-family:'DM Sans',sans-serif;width:100%;}
+.onb-skip-link:hover{color:var(--text-2);}
+.orcid-badge{display:flex;align-items:center;gap:10px;background:var(--accent-dim);border:1px solid var(--border-hi);border-radius:10px;padding:14px 16px;margin-bottom:20px;}
+.orcid-logo{width:36px;height:36px;border-radius:50%;background:#A6CE39;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white;font-family:'DM Sans',sans-serif;}
+.orcid-badge-text{font-size:13px;color:var(--text-2);line-height:1.45;}
+.onb-pd-expand{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ac-blue);cursor:pointer;padding:0;margin:16px 0 4px;display:flex;align-items:center;gap:5px;}
+.onb-pd-fields{display:none;margin-top:12px;}
+.onb-pd-fields.open{display:block;}
+
 /* Multi-page override */
 .page { display: block !important; animation: fadeUp .38s ease both; }
 </style>
@@ -665,7 +689,7 @@ body.on-login .site-footer{display:none;}
 <body>
 <div class="toast" id="toast"></div>
 <!-- SECTION:nav START -->
-<nav><div class="nav-logo" onclick="navigate('home')" role="button" tabindex="0"><div class="logo-mark"><span>G</span></div><span class="logo-name">GuideFlow</span><span class="logo-divider nav-app-parts">/</span><div class="service-switcher nav-app-parts"><button class="service-btn" aria-expanded="false"><span id="service-label">General Surgery</span><svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="service-dropdown"><div class="dd-label">Services</div><a class="dd-item service-item dd-active" href="#" data-service="General Surgery"><span class="dd-dot"></span>General Surgery</a><a class="dd-item service-item" href="#" data-service="Medicine"><span class="dd-dot"></span>Medicine</a><a class="dd-item service-item" href="#" data-service="Emergency Medicine"><span class="dd-dot"></span>Emergency Medicine</a><a class="dd-item service-item" href="#" data-service="Urology"><span class="dd-dot"></span>Urology</a><a class="dd-item service-item" href="#" data-service="Cardiology"><span class="dd-dot"></span>Cardiology</a><a class="dd-item service-item" href="#" data-service="Neurology"><span class="dd-dot"></span>Neurology</a><a class="dd-item service-item" href="#" data-service="NICU"><span class="dd-dot"></span>NICU</a><a class="dd-item service-item" href="#" data-service="Pharmacy"><span class="dd-dot"></span>Pharmacy</a><a class="dd-item service-item" href="#" data-service="Palliative Care"><span class="dd-dot"></span>Palliative Care</a></div></div></div><div class="nav-center nav-app-parts"><div class="nav-item"><button class="nav-btn" id="nav-rotation" onclick="navigate('rotation')" aria-expanded="false">Rotation</button></div><div class="nav-item"><button class="nav-btn active" id="nav-guidelines" onclick="navigate('home')" aria-expanded="false">Guidelines <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Specialties</div><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Emergency</a><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Surgery</a><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Pharmacy</a><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Neurology</a><div class="dd-divider"></div><a class="dd-item" href="#" onclick="navigate('home');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>View All</a></div></div><div class="nav-item"><button class="nav-btn" id="nav-directory" onclick="showToast('On-Call Directory — coming soon')" aria-expanded="false">Directory <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Contacts</div><a class="dd-item" href="#" onclick="showToast('On-Call Directory — coming soon');return false;"><span class="dd-dot"></span>On-Call Directory</a><a class="dd-item" href="#" onclick="showToast('Service Contacts — coming soon');return false;"><span class="dd-dot"></span>Service Contacts</a></div></div><div class="nav-item"><button class="nav-btn" id="nav-analytics" aria-expanded="false">Analytics <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Reports</div><a class="dd-item" id="dd-caselogs" href="#" onclick="navigate('caselogs');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Case Logs</a><a class="dd-item" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Search Analytics</a><div class="dd-divider"></div>
+<nav><div class="nav-logo" onclick="navigate('home')" role="button" tabindex="0"><div class="logo-mark"><span>G</span></div><span class="logo-name">GuideFlow</span><span class="logo-divider nav-app-parts">/</span><div class="service-switcher nav-app-parts"><button class="service-btn" aria-expanded="false"><span id="service-label">General Surgery</span><svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="service-dropdown"><div class="dd-label">Services</div><a class="dd-item service-item dd-active" href="#" data-service="General Surgery"><span class="dd-dot"></span>General Surgery</a><a class="dd-item service-item" href="#" data-service="Medicine"><span class="dd-dot"></span>Medicine</a><a class="dd-item service-item" href="#" data-service="Emergency Medicine"><span class="dd-dot"></span>Emergency Medicine</a><a class="dd-item service-item" href="#" data-service="Urology"><span class="dd-dot"></span>Urology</a><a class="dd-item service-item" href="#" data-service="Cardiology"><span class="dd-dot"></span>Cardiology</a><a class="dd-item service-item" href="#" data-service="Neurology"><span class="dd-dot"></span>Neurology</a><a class="dd-item service-item" href="#" data-service="NICU"><span class="dd-dot"></span>NICU</a><a class="dd-item service-item" href="#" data-service="Pharmacy"><span class="dd-dot"></span>Pharmacy</a><a class="dd-item service-item" href="#" data-service="Palliative Care"><span class="dd-dot"></span>Palliative Care</a></div></div></div><div class="nav-center nav-app-parts"><div class="nav-item" style="display:none;"><button class="nav-btn" id="nav-rotation" onclick="navigate('rotation')" aria-expanded="false">Rotation</button></div><div class="nav-item"><button class="nav-btn active" id="nav-guidelines" onclick="navigate('home')" aria-expanded="false">Guidelines <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Specialties</div><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Emergency</a><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Surgery</a><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Pharmacy</a><a class="dd-item" href="#" onclick="navigate('home');return false;"><span class="dd-dot"></span>Neurology</a><div class="dd-divider"></div><a class="dd-item" href="#" onclick="navigate('home');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>View All</a></div></div><div class="nav-item"><button class="nav-btn" id="nav-directory" onclick="showToast('On-Call Directory — coming soon')" aria-expanded="false">Directory <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Contacts</div><a class="dd-item" href="#" onclick="showToast('On-Call Directory — coming soon');return false;"><span class="dd-dot"></span>On-Call Directory</a><a class="dd-item" href="#" onclick="showToast('Service Contacts — coming soon');return false;"><span class="dd-dot"></span>Service Contacts</a></div></div><div class="nav-item"><button class="nav-btn" id="nav-analytics" aria-expanded="false">Analytics <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Reports</div><a class="dd-item" id="dd-caselogs" href="#" onclick="navigate('caselogs');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Case Logs</a><a class="dd-item" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Search Analytics</a><div class="dd-divider"></div>
 <a class="dd-item" href="#" onclick="navigate('heatmap');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Autonomy Map</a>
 <a class="dd-item" href="#" onclick="navigate('fellowship');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Fellowship</a></div></div><div class="nav-item"><button class="nav-btn" id="nav-admin" onclick="navigate('admin')" aria-expanded="false">Admin <svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 3.5l3.5 3.5 3.5-3.5"/></svg></button><div class="dropdown"><div class="dd-label">Management</div><a class="dd-item" href="#" onclick="navigate('admin');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Guidelines</a><a class="dd-item" href="#" onclick="navigate('admin');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Users</a><a class="dd-item" href="#" onclick="navigate('admin');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/></svg>Directory</a></div></div></div><div class="nav-right"><div class="nav-search nav-app-parts"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span class="nav-search-text">Search...</span><span class="kbd">⌘K</span></div><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light theme"><svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg></button><button class="btn-login" id="nav-login-btn">Login</button><div class="nav-avatar nav-app-parts" id="nav-avatar">DR</div></div></nav>
 <!-- SECTION:nav END -->
@@ -679,14 +703,14 @@ body.on-login .site-footer{display:none;}
   <div><span class="home-rotation-label">General Surgery Rotation</span><span class="home-rotation-dates">Jan 6 – Mar 27, 2026</span></div>
   <div class="search-bar-compact" onclick="openCmd()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span style="flex:1;font-size:13px;color:var(--text-3);">Search...</span><span class="kbd">⌘K</span></div>
 </div><div class="cards-grid"><a class="card" href="#" onclick="navigate('caselogs');return false;"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="card-body"><div class="card-stat">127 cases</div><div class="card-title">Case Logs</div><div class="card-desc" style="font-size:13px;">ACGME category tracking</div></div><svg class="card-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="card" href="#"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 5.36 5.36l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 15.92z"/></svg></div><div class="card-body"><div class="card-stat">3 on-call</div><div class="card-title">On-Call Directory</div><div class="card-desc" style="font-size:13px;">Attendings &amp; service numbers</div></div><svg class="card-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="sep-labeled"><span class="sep-label">Most Recent</span><div class="sep-line"></div></div><div class="sec-hd" style="display:none"><span class="sec-label">Most Recent</span><div class="view-toggle"><button class="view-btn active" onclick="setView('list',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>List</button><button class="view-btn" onclick="setView('grid',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Grid</button></div></div><div class="list-card" id="list-view">
-<div class="list-row"><span class="list-dot" style="background:#E8956F"></span><span class="list-num">1</span><div class="list-body"><span class="list-name">Sepsis Management Protocol</span><span class="list-meta">Updated Mar 10, 2026</span></div><span class="tag">Emergency</span></div>
-<div class="list-row"><span class="list-dot" style="background:#8BB8E0"></span><span class="list-num">2</span><div class="list-body"><span class="list-name">Anticoagulation Bridging Guidelines</span><span class="list-meta">Updated Mar 8, 2026</span></div><span class="tag">Pharmacy</span></div>
+<div class="list-row"><span class="list-dot" style="background:#D4A574"></span><span class="list-num">1</span><div class="list-body"><span class="list-name">Sepsis Management Protocol</span><span class="list-meta">Updated Mar 10, 2026</span></div><span class="tag">Emergency</span></div>
+<div class="list-row"><span class="list-dot" style="background:#8AAEC8"></span><span class="list-num">2</span><div class="list-body"><span class="list-name">Anticoagulation Bridging Guidelines</span><span class="list-meta">Updated Mar 8, 2026</span></div><span class="tag">Pharmacy</span></div>
 <div class="list-row"><span class="list-dot" style="background:#9AB87A"></span><span class="list-num">3</span><div class="list-body"><span class="list-name">Acute Stroke Pathway</span><span class="list-meta">Updated Mar 5, 2026</span></div><span class="tag">Neurology</span></div>
-<div class="list-row"><span class="list-dot" style="background:#C4B098"></span><span class="list-num">4</span><div class="list-body"><span class="list-name">Neonatal Resuscitation Protocol</span><span class="list-meta">Updated Mar 3, 2026</span></div><span class="tag">NICU</span></div>
-<div class="list-row"><span class="list-dot" style="background:#A090C0"></span><span class="list-num">5</span><div class="list-body"><span class="list-name">DVT Prophylaxis Algorithm</span><span class="list-meta">Updated Mar 1, 2026</span></div><span class="tag">Surgery</span></div>
+<div class="list-row"><span class="list-dot" style="background:#B8A080"></span><span class="list-num">4</span><div class="list-body"><span class="list-name">Neonatal Resuscitation Protocol</span><span class="list-meta">Updated Mar 3, 2026</span></div><span class="tag">NICU</span></div>
+<div class="list-row"><span class="list-dot" style="background:#9A8AA0"></span><span class="list-num">5</span><div class="list-body"><span class="list-name">DVT Prophylaxis Algorithm</span><span class="list-meta">Updated Mar 1, 2026</span></div><span class="tag">Surgery</span></div>
 </div><div class="guide-grid" id="grid-view" style="display:none">
 <!-- 1 Sepsis (#D97757) virus on tilted paper -->
-<a class="guide-card" href="#"><div class="guide-card-top" style="background:#D97757"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a class="guide-card" href="#"><div class="guide-card-top" style="background:#C48A64"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="38" y="34" width="44" height="52" rx="2" fill="#faf9f5" transform="rotate(-6 60 60)"/><rect x="42" y="30" width="44" height="52" rx="2" fill="#faf9f5" transform="rotate(4 64 56)"/>
 <circle cx="60" cy="56" r="13" stroke="#1a1210" stroke-width="2.8"/>
 <path d="M60 43L60 38" stroke="#1a1210" stroke-width="2.5" stroke-linecap="round"/><circle cx="60" cy="36" r="2.2" fill="#1a1210"/>
@@ -700,7 +724,7 @@ body.on-login .site-footer{display:none;}
 <circle cx="57" cy="52" r="1.5" fill="#1a1210"/><circle cx="63" cy="54" r="1.2" fill="#1a1210"/><circle cx="59" cy="60" r="1.5" fill="#1a1210"/><circle cx="64" cy="60" r="1" fill="#1a1210"/>
 </svg></div><div class="guide-card-body"><span class="guide-date">Mar 10, 2026</span><div class="guide-title">Sepsis Management Protocol</div><span class="tag">Emergency</span></div></a>
 <!-- 2 Anticoagulation (#6A9BCC) Rx bottle on paper -->
-<a class="guide-card" href="#"><div class="guide-card-top" style="background:#6A9BCC"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a class="guide-card" href="#"><div class="guide-card-top" style="background:#7A9EB8"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="36" y="32" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(-5 58 59)"/><rect x="40" y="28" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(3 62 55)"/>
 <rect x="48" y="40" width="22" height="32" rx="3" stroke="#1a1210" stroke-width="2.5"/>
 <rect x="50" y="36" width="18" height="8" rx="2" stroke="#1a1210" stroke-width="2.5"/>
@@ -712,7 +736,7 @@ body.on-login .site-footer{display:none;}
 <line x1="78" y1="63" x2="78" y2="73" stroke="#1a1210" stroke-width="1.5" transform="rotate(-25 78 68)"/>
 </svg></div><div class="guide-card-body"><span class="guide-date">Mar 8, 2026</span><div class="guide-title">Anticoagulation Bridging Guidelines</div><span class="tag">Pharmacy</span></div></a>
 <!-- 3 Stroke (#788C5D) brain on paper -->
-<a class="guide-card" href="#"><div class="guide-card-top" style="background:#788C5D"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a class="guide-card" href="#"><div class="guide-card-top" style="background:#7A9460"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="36" y="32" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(-5 58 59)"/><rect x="40" y="28" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(3 62 55)"/>
 <path d="M60 78L60 72" stroke="#1a1210" stroke-width="3" stroke-linecap="round"/>
 <path d="M60 36C50 36 42 44 42 52C42 60 47 65 54 66L60 66L66 66C73 65 78 60 78 52C78 44 70 36 60 36Z" stroke="#1a1210" stroke-width="2.5"/>
@@ -723,7 +747,7 @@ body.on-login .site-footer{display:none;}
 <path d="M70 56C67 58 65 56 64 59" stroke="#1a1210" stroke-width="2" stroke-linecap="round"/>
 </svg></div><div class="guide-card-body"><span class="guide-date">Mar 5, 2026</span><div class="guide-title">Acute Stroke Pathway</div><span class="tag">Neurology</span></div></a>
 <!-- 4 Neonatal (#C4A882) stethoscope + heartbeat on paper -->
-<a class="guide-card" href="#"><div class="guide-card-top" style="background:#C4A882"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a class="guide-card" href="#"><div class="guide-card-top" style="background:#B8A080"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="36" y="32" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(-5 58 59)"/><rect x="40" y="28" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(3 62 55)"/>
 <circle cx="60" cy="58" r="10" stroke="#1a1210" stroke-width="2.5"/>
 <circle cx="60" cy="58" r="4" stroke="#1a1210" stroke-width="2"/>
@@ -734,7 +758,7 @@ body.on-login .site-footer{display:none;}
 <path d="M40 78L48 78L52 72L56 84L60 74L64 80L72 80" stroke="#1a1210" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg></div><div class="guide-card-body"><span class="guide-date">Mar 3, 2026</span><div class="guide-title">Neonatal Resuscitation Protocol</div><span class="tag">NICU</span></div></a>
 <!-- 5 DVT (#B8A0C8) syringe on paper -->
-<a class="guide-card" href="#"><div class="guide-card-top" style="background:#B8A0C8"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a class="guide-card" href="#"><div class="guide-card-top" style="background:#9A8AA0"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="36" y="32" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(-5 58 59)"/><rect x="40" y="28" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(3 62 55)"/>
 <rect x="52" y="36" width="10" height="34" rx="2" stroke="#1a1210" stroke-width="2.5"/>
 <rect x="54" y="32" width="6" height="6" rx="1" stroke="#1a1210" stroke-width="2"/>
@@ -748,7 +772,7 @@ body.on-login .site-footer{display:none;}
 <path d="M40 46C40 52 44 56 40 62C36 68 40 74 44 74" stroke="#1a1210" stroke-width="2.2" stroke-linecap="round"/>
 </svg></div><div class="guide-card-body"><span class="guide-date">Mar 1, 2026</span><div class="guide-title">DVT Prophylaxis Algorithm</div><span class="tag">Surgery</span></div></a>
 <!-- 6 Post-Op (#D4906A) clipboard on paper -->
-<a class="guide-card" href="#"><div class="guide-card-top" style="background:#D4906A"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a class="guide-card" href="#"><div class="guide-card-top" style="background:#C08050"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="36" y="32" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(-5 58 59)"/><rect x="40" y="28" width="44" height="54" rx="2" fill="#faf9f5" transform="rotate(3 62 55)"/>
 <rect x="44" y="38" width="30" height="38" rx="2" stroke="#1a1210" stroke-width="2.5"/>
 <rect x="52" y="34" width="14" height="8" rx="4" stroke="#1a1210" stroke-width="2.2"/>
@@ -791,7 +815,7 @@ body.on-login .site-footer{display:none;}
   </div>
 </div>
 
-</div></div>
+</div>
 <!-- SECTION:page:home END -->
 </div><!-- /app-layout -->
 
@@ -811,11 +835,35 @@ body.on-login .site-footer{display:none;}
 
 <!-- SECTION:scripts START -->
 <script>
-const ALLOWED_DOMAINS=['stmichaels.org','stmichaels.com','stmichaels.ca'];
+const ALLOWED_DOMAINS=['arizona.edu','email.arizona.edu','surgery.arizona.edu'];
 let chartsNeedRefresh=false;
-let totalCases=127,roleCounts={SC:0,SJ:98,TA:4,FA:25},submittedEmail='',resendTimerInterval=null,resendSeconds=30,isLoggedIn=true;
+let totalCases=127,roleCounts={SC:0,SJ:98,TA:4,FA:25},submittedEmail='',resendTimerInterval=null,resendSeconds=30,isLoggedIn=false;
 let chartDonut,chartTrend,chartRoles;
 const acgmeData=[{name:'Abdominal',min:250,logged:34},{name:'Alimentary Tract',min:180,logged:28},{name:'Laparoscopic',min:175,logged:30},{name:'Endoscopy',min:85,logged:22},{name:'Vascular',min:50,logged:8},{name:'Trauma',min:50,logged:9},{name:'Surgical Crit Care',min:40,logged:12},{name:'Breast',min:40,logged:6},{name:'Skin / Soft Tissue',min:25,logged:11},{name:'Head & Neck',min:25,logged:5},{name:'Thoracic',min:20,logged:2},{name:'Pediatric',min:20,logged:4},{name:'Endocrine',min:15,logged:4},{name:'Plastic',min:10,logged:2}];
+let rotChartsBuilt=false;
+function buildRotationCharts(){
+  if(rotChartsBuilt)return;rotChartsBuilt=true;
+  const isDark=!document.body.classList.contains('light');
+  const gridColor=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.08)';
+  const textColor=isDark?'#9A9589':'#6B6560';
+  const bgTrack=isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.06)';
+  // Doughnut helper
+  function makeDoughnut(id,done,total,color){
+    const ctx=document.getElementById(id);
+    if(!ctx)return;
+    new Chart(ctx,{type:'doughnut',data:{datasets:[{data:[done,total-done],backgroundColor:[color,bgTrack],borderWidth:0,borderRadius:6}]},options:{cutout:'72%',responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true,duration:900,easing:'easeOutQuart'}}});
+  }
+  makeDoughnut('chart-abdominal',34,250,'#E8A87C');
+  makeDoughnut('chart-alimentary',28,180,'#85B8CB');
+  makeDoughnut('chart-lap',30,100,'#C9B1FF');
+  makeDoughnut('chart-hernia',18,85,'#8FD1A2');
+  // Horizontal bar
+  const barCtx=document.getElementById('chart-bar-overall');
+  if(barCtx){new Chart(barCtx,{type:'bar',data:{labels:['Abdominal','Alimentary','Laparoscopic','Hernia','Endoscopy','Vascular'],datasets:[{label:'Logged',data:[34,28,30,18,12,8],backgroundColor:'#E8A87C',borderRadius:4,barPercentage:0.6},{label:'Required',data:[250,180,100,85,50,30],backgroundColor:bgTrack,borderRadius:4,barPercentage:0.6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{stacked:false,grid:{color:gridColor,drawBorder:false},ticks:{color:textColor,font:{size:10}}},y:{grid:{display:false},ticks:{color:textColor,font:{size:11}}}},plugins:{legend:{display:true,position:'bottom',labels:{color:textColor,font:{size:10},boxWidth:10,padding:12}}}}});}
+  // Trend line
+  const trendCtx=document.getElementById('chart-rot-trend');
+  if(trendCtx){new Chart(trendCtx,{type:'line',data:{labels:['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6','Week 7','Week 8'],datasets:[{label:'Cases logged',data:[3,5,8,6,10,9,12,14],borderColor:'#E8A87C',backgroundColor:'rgba(232,168,124,0.1)',fill:true,tension:0.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#E8A87C'}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:gridColor,drawBorder:false},ticks:{color:textColor,font:{size:10}}},y:{grid:{color:gridColor,drawBorder:false},ticks:{color:textColor,font:{size:10}},beginAtZero:true}},plugins:{legend:{display:false}}}});}
+}
 function buildACGMEBars(){const c=document.getElementById('acgme-bars');c.innerHTML='';
 const benchmarks={Abdominal:42,Alimentary:35,Laparoscopic:38,Endoscopy:20,Vascular:12,Trauma:15,'Surgical Crit Care':14,Breast:8,'Skin / Soft Tissue':10,'Head & Neck':6,Thoracic:5,Pediatric:5,Endocrine:4,Plastic:3};
 acgmeData.forEach(d=>{const pct=Math.min(d.logged/d.min*100,100),met=d.logged>=d.min;let cls=met?'met':pct>=50?'high':pct>=25?'mid':'low';
@@ -1023,13 +1071,14 @@ else if(page==='rotation'){
   document.getElementById('page-rotation').classList.add('active');
   document.getElementById('sb-rotation').style.display='';
   document.getElementById('nav-rotation').classList.add('active');
-  setTimeout(()=>{ loadBTKFeed(); buildDeadlineSection(); }, 100);
+  setTimeout(()=>{ loadBTKFeed(); buildDeadlineSection(); buildRotationCharts(); }, 100);
 }
 else if(page==='fellowship'){document.getElementById('page-fellowship').classList.add('active');document.getElementById('sb-fellowship').style.display='';document.getElementById('nav-analytics').classList.add('active')}
 else if(page==='heatmap'){document.getElementById('page-heatmap').classList.add('active');document.getElementById('sb-heatmap').style.display='';document.getElementById('nav-analytics').classList.add('active')}
 else if(page==='login'){document.getElementById('page-login').classList.add('active');document.getElementById('login-form').classList.remove('hidden');document.getElementById('confirm-view').classList.remove('active');if(resendTimerInterval)clearInterval(resendTimerInterval);setTimeout(()=>{const e=document.getElementById('login-email');if(e)e.focus()},100)}
+else if(page==='onboarding'){document.getElementById('page-onboarding').classList.add('active');document.body.classList.add('on-login');document.getElementById('app-layout').style.display='none';document.getElementById('nav-login-btn').style.display='none';document.getElementById('nav-avatar').style.display='none';onbGoTo(1);}
 window.scrollTo(0,0)}
-function validateEmail(e){if(!e.trim())return'Please enter your email address.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return'Please enter a valid email address.';const d=e.split('@')[1]?.toLowerCase();if(!ALLOWED_DOMAINS.includes(d))return"This email domain isn't associated with St. Michael's Hospital.";return null}
+function validateEmail(e){if(!e.trim())return'Please enter your email address.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return'Please enter a valid email address.';const d=e.split('@')[1]?.toLowerCase();if(!ALLOWED_DOMAINS.includes(d))return"This email domain isn't associated with the University of Arizona.";return null}
 function handleLoginSubmit(){const i=document.getElementById('login-email'),er=document.getElementById('login-email-error'),b=document.getElementById('login-submit-btn'),e=i.value.trim();i.classList.remove('has-error');er.classList.remove('visible');const m=validateEmail(e);if(m){i.classList.add('has-error');er.textContent=m;er.classList.add('visible');return}b.classList.add('loading');b.disabled=true;setTimeout(()=>{b.classList.remove('loading');b.disabled=false;submittedEmail=e;document.getElementById('login-form').classList.add('hidden');document.getElementById('confirm-view').classList.add('active');document.getElementById('confirm-email').textContent=e;startResendTimer();showToast('Magic link sent')},1500)}
 function startResendTimer(){resendSeconds=30;const t=document.getElementById('resend-timer'),b=document.getElementById('resend-btn');b.disabled=true;t.style.display='';if(resendTimerInterval)clearInterval(resendTimerInterval);resendTimerInterval=setInterval(()=>{resendSeconds--;if(resendSeconds<=0){clearInterval(resendTimerInterval);b.disabled=false;t.style.display='none'}else{t.textContent=`0:${resendSeconds.toString().padStart(2,'0')}`}},1000)}
 function handleResend(){showToast('Magic link resent');startResendTimer()}
@@ -1037,7 +1086,7 @@ function backToLoginForm(){document.getElementById('login-form').classList.remov
 document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter')handleLoginSubmit()});
 document.getElementById('login-email').addEventListener('input',()=>{document.getElementById('login-email').classList.remove('has-error');document.getElementById('login-email-error').classList.remove('visible')});
 document.getElementById('nav-login-btn').addEventListener('click',()=>{if(isLoggedIn){isLoggedIn=false;navigate('login');showToast('Logged out')}else{navigate('login')}});
-document.getElementById('confirm-view').addEventListener('dblclick',()=>{isLoggedIn=true;navigate('home');showToast('Signed in as '+submittedEmail)});
+document.getElementById('confirm-view').addEventListener('dblclick',()=>{isLoggedIn=true;navigate('onboarding');showToast('Email verified — let\'s set up your profile');});
 function submitCase(){const p=document.getElementById('f-proc').value.trim(),r=document.getElementById('f-role').value,c=document.getElementById('f-cat').value,d=document.getElementById('f-date').value;if(!p||!r){showToast('Please fill in required fields');return}totalCases++;if(roleCounts[r]!==undefined)roleCounts[r]++;
 document.getElementById('donut-num').textContent=totalCases;document.getElementById('case-count-label').textContent=totalCases+' logged';document.getElementById('m-pgy3').textContent=Math.min(totalCases,250);document.getElementById('m-pgy3-bar').style.width=Math.min(totalCases/250*100,100).toFixed(1)+'%';document.getElementById('m-month').textContent=parseInt(document.getElementById('m-month').textContent)+1;
 document.getElementById('rl-sc').textContent=roleCounts.SC;document.getElementById('rl-sj').textContent=roleCounts.SJ;document.getElementById('rl-ta').textContent=roleCounts.TA;document.getElementById('rl-fa').textContent=roleCounts.FA;
@@ -1288,7 +1337,7 @@ function exportCasesCSV() {
       'PGY Year':        document.getElementById('f-pgy')?.value || '1',
       'Rotation':        document.getElementById('service-label')?.textContent || 'General Surgery',
       'Role':            role,
-      'Site':            'St. Michael\'s Hospital',
+      'Site':            'University of Arizona',
       'Attending':       '',
       'Patient Type':    'Adult',
       'Defined Category': category !== '—' ? category : '',
@@ -1372,7 +1421,169 @@ function buildDeadlineSection() {
   }).join('');
 }
 
-document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();navigate('rotation');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none'});
+// ── ONBOARDING STATE ──────────────────────────────────────────────────────
+let onbStep = 1;
+const onbTotalSteps = 5;
+let userProfile = {
+  name:'',phone:'',role:'Resident',pgy:'1',gradYear:'2028',
+  service:'General Surgery',rotationStart:'',rotationEnd:'',
+  fellowship:'HPB Surgery',fellowshipSecondary:'',
+  orcid:'',pdName:'',pdEmail:'',onboardingComplete:false
+};
+
+function onbGoTo(step){
+  for(let i=1;i<=onbTotalSteps;i++){const el=document.getElementById('onb-step-'+i);if(el)el.style.display='none';}
+  const target=document.getElementById('onb-step-'+step);if(target)target.style.display='block';
+  onbStep=step;
+  const pct=(step/onbTotalSteps)*100;
+  const fill=document.getElementById('onb-progress-fill');
+  const label=document.getElementById('onb-progress-label');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent='Step '+step+' of '+onbTotalSteps;
+}
+function onbNext(){if(onbStep<onbTotalSteps)onbGoTo(onbStep+1);else completeOnboarding();}
+function onbBack(){if(onbStep>1)onbGoTo(onbStep-1);}
+
+function completeOnboarding(){
+  userProfile.name=document.getElementById('onb-name')?.value.trim()||'Resident';
+  userProfile.phone=document.getElementById('onb-phone')?.value.trim()||'';
+  userProfile.role=document.getElementById('onb-role')?.value||'Resident';
+  userProfile.pgy=document.getElementById('onb-pgy')?.value||'1';
+  userProfile.gradYear=document.getElementById('onb-grad-year')?.value||'2028';
+  userProfile.service=document.getElementById('onb-service')?.value||'General Surgery';
+  userProfile.rotationStart=document.getElementById('onb-rotation-start')?.value||'';
+  userProfile.rotationEnd=document.getElementById('onb-rotation-end')?.value||'';
+  userProfile.fellowship=document.getElementById('onb-fellowship')?.value||'Not sure yet';
+  userProfile.fellowshipSecondary=document.getElementById('onb-fellowship-secondary')?.value||'';
+  userProfile.orcid=document.getElementById('onb-orcid')?.value.trim()||'';
+  userProfile.pdName=document.getElementById('onb-pd-name')?.value.trim()||'';
+  userProfile.pdEmail=document.getElementById('onb-pd-email')?.value.trim()||'';
+  userProfile.onboardingComplete=true;
+  applyUserProfile();
+  showToast('Welcome, '+userProfile.name.split(' ')[0]+'!');
+  navigate('rotation');
+}
+
+function applyUserProfile(){
+  if(!userProfile.onboardingComplete)return;
+  const firstName=userProfile.name.split(' ')[0]||'Resident';
+  // Avatar initials
+  const avatar=document.getElementById('nav-avatar');
+  if(avatar&&userProfile.name){
+    const parts=userProfile.name.trim().split(' ');
+    avatar.textContent=parts.length>=2?parts[0][0].toUpperCase()+parts[parts.length-1][0].toUpperCase():parts[0].slice(0,2).toUpperCase();
+  }
+  // Case log eyebrow
+  const clEyebrow=document.querySelector('#page-caselogs .page-eyebrow');
+  if(clEyebrow)clEyebrow.textContent=userProfile.service+' Residency · PGY-'+userProfile.pgy;
+  // Service switcher label
+  const serviceLabel=document.getElementById('service-label');
+  if(serviceLabel)serviceLabel.textContent=userProfile.service;
+  // Rotation page header
+  const rotH1=document.querySelector('#page-rotation h1');
+  if(rotH1)rotH1.textContent=userProfile.service+' Rotation';
+  // Rotation sidebar dates
+  const sbRotStart=document.getElementById('sb-rot-start');
+  const sbRotEnd=document.getElementById('sb-rot-end');
+  if(sbRotStart&&userProfile.rotationStart){
+    const fmt=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    sbRotStart.textContent='Start: '+fmt(userProfile.rotationStart);
+    sbRotEnd.textContent='End: '+fmt(userProfile.rotationEnd);
+  }
+  // Sidebar fellowship goal
+  const sbFellowship=document.getElementById('sb-fellowship-goal');
+  if(sbFellowship)sbFellowship.textContent=userProfile.fellowship;
+  // Sidebar rotation select
+  const sbRotSelect=document.querySelector('#sb-rotation select');
+  if(sbRotSelect)sbRotSelect.value=userProfile.service;
+  // Reload feeds
+  if(typeof loadBTKFeed==='function')setTimeout(loadBTKFeed,100);
+}
+
+function togglePDFields(){
+  const fields=document.getElementById('onb-pd-fields');
+  const btn=document.getElementById('onb-pd-toggle');
+  if(!fields)return;
+  fields.classList.toggle('open');
+  if(btn)btn.textContent=fields.classList.contains('open')?'▾ Hide program director':'+ Add your program director (optional)';
+}
+
+function buildOnboardingPage(){
+  const today=new Date().toISOString().slice(0,10);
+  const endDate=new Date();endDate.setDate(endDate.getDate()+56);
+  const defaultEnd=endDate.toISOString().slice(0,10);
+  const el=document.getElementById('page-onboarding');
+  if(!el)return;
+  el.innerHTML=`
+<div class="login-page-wrap"><div class="onb-wrapper">
+  <div class="onb-progress">
+    <div class="onb-progress-track"><div class="onb-progress-fill" id="onb-progress-fill" style="width:20%"></div></div>
+    <span class="onb-progress-label" id="onb-progress-label">Step 1 of 5</span>
+  </div>
+  <div class="onb-card">
+
+    <!-- STEP 1: Basic Info -->
+    <div id="onb-step-1" class="onb-step">
+      <h2 class="onb-step-title">Tell us about yourself</h2>
+      <p class="onb-step-sub">This personalises your dashboard and EPA notifications.</p>
+      <div class="field"><label class="field-label">Full name <span class="req">*</span></label><input type="text" id="onb-name" placeholder="Dr. Jane Smith" autocomplete="name"/></div>
+      <div class="field"><label class="field-label">Phone number <span class="req">*</span></label><input type="tel" id="onb-phone" placeholder="+1 (555) 000-0000" autocomplete="tel"/><span class="login-hint">Used for EPA feedback SMS notifications from attendings.</span></div>
+      <div class="field"><label class="field-label">Role <span class="req">*</span></label><select id="onb-role"><option value="Resident">Resident</option><option value="Fellow">Fellow</option><option value="Attending">Attending</option><option value="GME Coordinator">GME Coordinator</option></select></div>
+      <div class="onb-nav"><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 2: Training Level -->
+    <div id="onb-step-2" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Your training level</h2>
+      <p class="onb-step-sub">Sets your ACGME requirements and case log targets.</p>
+      <div class="form-grid-2">
+        <div class="field"><label class="field-label">PGY Year <span class="req">*</span></label><select id="onb-pgy"><option value="1">PGY-1</option><option value="2">PGY-2</option><option value="3">PGY-3</option><option value="4">PGY-4</option><option value="5">PGY-5</option></select></div>
+        <div class="field"><label class="field-label">Expected graduation <span class="req">*</span></label><select id="onb-grad-year"><option value="2026">2026</option><option value="2027">2027</option><option value="2028" selected>2028</option><option value="2029">2029</option><option value="2030">2030</option></select></div>
+      </div>
+      <div class="onb-nav"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 3: Rotation -->
+    <div id="onb-step-3" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Your current rotation</h2>
+      <p class="onb-step-sub">GuideFlow shows relevant guidelines, podcasts, and on-call info for your service.</p>
+      <div class="field"><label class="field-label">Current service <span class="req">*</span></label><select id="onb-service"><option value="General Surgery">General Surgery</option><option value="Trauma Surgery">Trauma Surgery</option><option value="Vascular Surgery">Vascular Surgery</option><option value="Colorectal">Colorectal</option><option value="Hepatobiliary">Hepatobiliary</option><option value="Breast Surgery">Breast Surgery</option><option value="Endocrine Surgery">Endocrine Surgery</option><option value="Thoracic Surgery">Thoracic Surgery</option><option value="Pediatric Surgery">Pediatric Surgery</option><option value="Surgical Critical Care">Surgical Critical Care</option></select></div>
+      <div class="form-grid-2">
+        <div class="field"><label class="field-label">Start date <span class="req">*</span></label><input type="date" id="onb-rotation-start" value="${today}"/></div>
+        <div class="field"><label class="field-label">End date <span class="req">*</span></label><input type="date" id="onb-rotation-end" value="${defaultEnd}"/><span class="login-hint">Typically 4–8 weeks from start.</span></div>
+      </div>
+      <div class="onb-nav"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 4: Fellowship -->
+    <div id="onb-step-4" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Your fellowship goal</h2>
+      <p class="onb-step-sub">We benchmark your cases and research against matched applicants for your target fellowship.</p>
+      <div class="field"><label class="field-label">Primary interest <span class="req">*</span></label><select id="onb-fellowship"><option value="Not sure yet">Not sure yet</option><option value="Colorectal Surgery (CRS)">Colorectal Surgery (CRS)</option><option value="HPB Surgery" selected>Hepatobiliary (HPB)</option><option value="Minimally Invasive / Bariatric (MIS)">Minimally Invasive / Bariatric (MIS)</option><option value="Surgical Oncology">Surgical Oncology</option><option value="Vascular Surgery">Vascular Surgery</option><option value="Thoracic Surgery">Thoracic Surgery</option><option value="Breast Surgery">Breast Surgery</option><option value="Pediatric Surgery">Pediatric Surgery</option><option value="Surgical Critical Care">Surgical Critical Care</option><option value="Transplant Surgery">Transplant Surgery</option></select></div>
+      <div class="field"><label class="field-label">Secondary interest <span style="color:var(--text-3);font-weight:400">(optional)</span></label><select id="onb-fellowship-secondary"><option value="">None</option><option value="Colorectal Surgery (CRS)">Colorectal Surgery (CRS)</option><option value="HPB Surgery">Hepatobiliary (HPB)</option><option value="Minimally Invasive / Bariatric (MIS)">Minimally Invasive / Bariatric (MIS)</option><option value="Surgical Oncology">Surgical Oncology</option><option value="Vascular Surgery">Vascular Surgery</option><option value="Thoracic Surgery">Thoracic Surgery</option><option value="Breast Surgery">Breast Surgery</option><option value="Pediatric Surgery">Pediatric Surgery</option><option value="Surgical Critical Care">Surgical Critical Care</option><option value="Transplant Surgery">Transplant Surgery</option></select></div>
+      <div class="onb-nav"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 5: Research + PD -->
+    <div id="onb-step-5" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Research profile</h2>
+      <p class="onb-step-sub">Optional — connect your ORCID to track publications toward your fellowship goal.</p>
+      <div class="orcid-badge"><div class="orcid-logo">iD</div><span class="orcid-badge-text">ORCID is the standard researcher ID used by journals and funding agencies. Connecting it takes 30 seconds.</span></div>
+      <div class="field"><label class="field-label">ORCID iD</label><input type="text" id="onb-orcid" placeholder="0000-0000-0000-0000" autocomplete="off"/><span class="login-hint">Format: XXXX-XXXX-XXXX-XXXX &nbsp;·&nbsp; <a href="https://orcid.org/register" target="_blank" rel="noopener" style="color:var(--ac-blue);text-decoration:none">Register free at orcid.org →</a></span></div>
+      <button class="onb-pd-expand" id="onb-pd-toggle" onclick="togglePDFields()">+ Add your program director (optional)</button>
+      <div class="onb-pd-fields" id="onb-pd-fields">
+        <div class="field"><label class="field-label">Program Director name</label><input type="text" id="onb-pd-name" placeholder="Dr. Program Director"/></div>
+        <div class="field"><label class="field-label">Program Director email</label><input type="email" id="onb-pd-email" placeholder="pd@hospital.org"/><span class="login-hint">Receives your rotation debrief at end of each rotation.</span></div>
+      </div>
+      <div class="onb-nav" style="margin-top:28px"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="completeOnboarding()" style="background:var(--ac-orange)">Get started →</button></div>
+      <button class="onb-skip-link" onclick="completeOnboarding()">Skip for now</button>
+    </div>
+
+  </div>
+</div></div>`;
+}
+
+document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();buildOnboardingPage();navigate(isLoggedIn?'rotation':'login');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none';setTimeout(function(){loadBTKFeed();buildDeadlineSection();},200);});
 function handleAddContact(btn){btn.disabled=true;btn.textContent='Adding...';setTimeout(function(){btn.disabled=false;btn.textContent='Add Contact';showToast('Contact added')},800)}
 (function(){var si=document.querySelector('.search-input');if(!si)return;si.addEventListener('input',function(){var q=si.value.trim().toLowerCase();var listRows=document.querySelectorAll('#list-view .list-row');var gridCards=document.querySelectorAll('#grid-view .guide-card');var matchCount=0;listRows.forEach(function(r){var name=r.querySelector('.list-name');var show=!q||name.textContent.toLowerCase().includes(q);r.style.display=show?'':'none';if(show)matchCount++});gridCards.forEach(function(c){var title=c.querySelector('.guide-title');var show=!q||title.textContent.toLowerCase().includes(q);c.style.display=show?'':'none'});var lv=document.getElementById('list-view');var gv=document.getElementById('grid-view');var existingEmpty=document.querySelectorAll('.empty-search');existingEmpty.forEach(function(e){e.remove()});if(q&&matchCount===0){var msg=document.createElement('div');msg.className='empty-search';msg.textContent='No guidelines found for "'+si.value.trim()+'"';lv.appendChild(msg.cloneNode(true));gv.appendChild(msg)}})})();
 // Keyboard support for role="button" elements and sidebar toggles

@@ -1,9 +1,33 @@
 /* GuideFlow Shared Scripts — extracted from guideflow-app.html */
-const ALLOWED_DOMAINS=['stmichaels.org','stmichaels.com','stmichaels.ca'];
+const ALLOWED_DOMAINS=['arizona.edu','email.arizona.edu','surgery.arizona.edu'];
 let chartsNeedRefresh=false;
-let totalCases=127,roleCounts={SC:0,SJ:98,TA:4,FA:25},submittedEmail='',resendTimerInterval=null,resendSeconds=30,isLoggedIn=true;
+let totalCases=127,roleCounts={SC:0,SJ:98,TA:4,FA:25},submittedEmail='',resendTimerInterval=null,resendSeconds=30,isLoggedIn=false;
 let chartDonut,chartTrend,chartRoles;
 const acgmeData=[{name:'Abdominal',min:250,logged:34},{name:'Alimentary Tract',min:180,logged:28},{name:'Laparoscopic',min:175,logged:30},{name:'Endoscopy',min:85,logged:22},{name:'Vascular',min:50,logged:8},{name:'Trauma',min:50,logged:9},{name:'Surgical Crit Care',min:40,logged:12},{name:'Breast',min:40,logged:6},{name:'Skin / Soft Tissue',min:25,logged:11},{name:'Head & Neck',min:25,logged:5},{name:'Thoracic',min:20,logged:2},{name:'Pediatric',min:20,logged:4},{name:'Endocrine',min:15,logged:4},{name:'Plastic',min:10,logged:2}];
+let rotChartsBuilt=false;
+function buildRotationCharts(){
+  if(rotChartsBuilt)return;rotChartsBuilt=true;
+  const isDark=!document.body.classList.contains('light');
+  const gridColor=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.08)';
+  const textColor=isDark?'#9A9589':'#6B6560';
+  const bgTrack=isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.06)';
+  // Doughnut helper
+  function makeDoughnut(id,done,total,color){
+    const ctx=document.getElementById(id);
+    if(!ctx)return;
+    new Chart(ctx,{type:'doughnut',data:{datasets:[{data:[done,total-done],backgroundColor:[color,bgTrack],borderWidth:0,borderRadius:6}]},options:{cutout:'72%',responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true,duration:900,easing:'easeOutQuart'}}});
+  }
+  makeDoughnut('chart-abdominal',34,250,'#E8A87C');
+  makeDoughnut('chart-alimentary',28,180,'#85B8CB');
+  makeDoughnut('chart-lap',30,100,'#C9B1FF');
+  makeDoughnut('chart-hernia',18,85,'#8FD1A2');
+  // Horizontal bar
+  const barCtx=document.getElementById('chart-bar-overall');
+  if(barCtx){new Chart(barCtx,{type:'bar',data:{labels:['Abdominal','Alimentary','Laparoscopic','Hernia','Endoscopy','Vascular'],datasets:[{label:'Logged',data:[34,28,30,18,12,8],backgroundColor:'#E8A87C',borderRadius:4,barPercentage:0.6},{label:'Required',data:[250,180,100,85,50,30],backgroundColor:bgTrack,borderRadius:4,barPercentage:0.6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{stacked:false,grid:{color:gridColor,drawBorder:false},ticks:{color:textColor,font:{size:10}}},y:{grid:{display:false},ticks:{color:textColor,font:{size:11}}}},plugins:{legend:{display:true,position:'bottom',labels:{color:textColor,font:{size:10},boxWidth:10,padding:12}}}}});}
+  // Trend line
+  const trendCtx=document.getElementById('chart-rot-trend');
+  if(trendCtx){new Chart(trendCtx,{type:'line',data:{labels:['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6','Week 7','Week 8'],datasets:[{label:'Cases logged',data:[3,5,8,6,10,9,12,14],borderColor:'#E8A87C',backgroundColor:'rgba(232,168,124,0.1)',fill:true,tension:0.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#E8A87C'}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:gridColor,drawBorder:false},ticks:{color:textColor,font:{size:10}}},y:{grid:{color:gridColor,drawBorder:false},ticks:{color:textColor,font:{size:10}},beginAtZero:true}},plugins:{legend:{display:false}}}});}
+}
 function buildACGMEBars(){const c=document.getElementById('acgme-bars');c.innerHTML='';
 const benchmarks={Abdominal:42,Alimentary:35,Laparoscopic:38,Endoscopy:20,Vascular:12,Trauma:15,'Surgical Crit Care':14,Breast:8,'Skin / Soft Tissue':10,'Head & Neck':6,Thoracic:5,Pediatric:5,Endocrine:4,Plastic:3};
 acgmeData.forEach(d=>{const pct=Math.min(d.logged/d.min*100,100),met=d.logged>=d.min;let cls=met?'met':pct>=50?'high':pct>=25?'mid':'low';
@@ -201,7 +225,7 @@ function navigate(page) {
   var pageMap = { home:'guidelines.html', caselogs:'caselogs.html', admin:'admin.html', rotation:'rotation.html', fellowship:'fellowship.html', heatmap:'heatmap.html', login:'login.html' };
   if (pageMap[page]) window.location.href = pageMap[page];
 }
-function validateEmail(e){if(!e.trim())return'Please enter your email address.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return'Please enter a valid email address.';const d=e.split('@')[1]?.toLowerCase();if(!ALLOWED_DOMAINS.includes(d))return"This email domain isn't associated with St. Michael's Hospital.";return null}
+function validateEmail(e){if(!e.trim())return'Please enter your email address.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return'Please enter a valid email address.';const d=e.split('@')[1]?.toLowerCase();if(!ALLOWED_DOMAINS.includes(d))return"This email domain isn't associated with the University of Arizona.";return null}
 function handleLoginSubmit(){const i=document.getElementById('login-email'),er=document.getElementById('login-email-error'),b=document.getElementById('login-submit-btn'),e=i.value.trim();i.classList.remove('has-error');er.classList.remove('visible');const m=validateEmail(e);if(m){i.classList.add('has-error');er.textContent=m;er.classList.add('visible');return}b.classList.add('loading');b.disabled=true;setTimeout(()=>{b.classList.remove('loading');b.disabled=false;submittedEmail=e;document.getElementById('login-form').classList.add('hidden');document.getElementById('confirm-view').classList.add('active');document.getElementById('confirm-email').textContent=e;startResendTimer();showToast('Magic link sent')},1500)}
 function startResendTimer(){resendSeconds=30;const t=document.getElementById('resend-timer'),b=document.getElementById('resend-btn');b.disabled=true;t.style.display='';if(resendTimerInterval)clearInterval(resendTimerInterval);resendTimerInterval=setInterval(()=>{resendSeconds--;if(resendSeconds<=0){clearInterval(resendTimerInterval);b.disabled=false;t.style.display='none'}else{t.textContent=`0:${resendSeconds.toString().padStart(2,'0')}`}},1000)}
 function handleResend(){showToast('Magic link resent');startResendTimer()}
@@ -209,7 +233,7 @@ function backToLoginForm(){document.getElementById('login-form').classList.remov
 document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter')handleLoginSubmit()});
 document.getElementById('login-email').addEventListener('input',()=>{document.getElementById('login-email').classList.remove('has-error');document.getElementById('login-email-error').classList.remove('visible')});
 document.getElementById('nav-login-btn').addEventListener('click',()=>{if(isLoggedIn){isLoggedIn=false;navigate('login');showToast('Logged out')}else{navigate('login')}});
-document.getElementById('confirm-view').addEventListener('dblclick',()=>{isLoggedIn=true;navigate('home');showToast('Signed in as '+submittedEmail)});
+document.getElementById('confirm-view').addEventListener('dblclick',()=>{isLoggedIn=true;navigate('onboarding');showToast('Email verified — let\'s set up your profile');});
 function submitCase(){const p=document.getElementById('f-proc').value.trim(),r=document.getElementById('f-role').value,c=document.getElementById('f-cat').value,d=document.getElementById('f-date').value;if(!p||!r){showToast('Please fill in required fields');return}totalCases++;if(roleCounts[r]!==undefined)roleCounts[r]++;
 document.getElementById('donut-num').textContent=totalCases;document.getElementById('case-count-label').textContent=totalCases+' logged';document.getElementById('m-pgy3').textContent=Math.min(totalCases,250);document.getElementById('m-pgy3-bar').style.width=Math.min(totalCases/250*100,100).toFixed(1)+'%';document.getElementById('m-month').textContent=parseInt(document.getElementById('m-month').textContent)+1;
 document.getElementById('rl-sc').textContent=roleCounts.SC;document.getElementById('rl-sj').textContent=roleCounts.SJ;document.getElementById('rl-ta').textContent=roleCounts.TA;document.getElementById('rl-fa').textContent=roleCounts.FA;
@@ -460,7 +484,7 @@ function exportCasesCSV() {
       'PGY Year':        document.getElementById('f-pgy')?.value || '1',
       'Rotation':        document.getElementById('service-label')?.textContent || 'General Surgery',
       'Role':            role,
-      'Site':            'St. Michael\'s Hospital',
+      'Site':            'University of Arizona',
       'Attending':       '',
       'Patient Type':    'Adult',
       'Defined Category': category !== '—' ? category : '',
@@ -544,7 +568,169 @@ function buildDeadlineSection() {
   }).join('');
 }
 
-document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();navigate('rotation');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none'});
+// ── ONBOARDING STATE ──────────────────────────────────────────────────────
+let onbStep = 1;
+const onbTotalSteps = 5;
+let userProfile = {
+  name:'',phone:'',role:'Resident',pgy:'1',gradYear:'2028',
+  service:'General Surgery',rotationStart:'',rotationEnd:'',
+  fellowship:'HPB Surgery',fellowshipSecondary:'',
+  orcid:'',pdName:'',pdEmail:'',onboardingComplete:false
+};
+
+function onbGoTo(step){
+  for(let i=1;i<=onbTotalSteps;i++){const el=document.getElementById('onb-step-'+i);if(el)el.style.display='none';}
+  const target=document.getElementById('onb-step-'+step);if(target)target.style.display='block';
+  onbStep=step;
+  const pct=(step/onbTotalSteps)*100;
+  const fill=document.getElementById('onb-progress-fill');
+  const label=document.getElementById('onb-progress-label');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent='Step '+step+' of '+onbTotalSteps;
+}
+function onbNext(){if(onbStep<onbTotalSteps)onbGoTo(onbStep+1);else completeOnboarding();}
+function onbBack(){if(onbStep>1)onbGoTo(onbStep-1);}
+
+function completeOnboarding(){
+  userProfile.name=document.getElementById('onb-name')?.value.trim()||'Resident';
+  userProfile.phone=document.getElementById('onb-phone')?.value.trim()||'';
+  userProfile.role=document.getElementById('onb-role')?.value||'Resident';
+  userProfile.pgy=document.getElementById('onb-pgy')?.value||'1';
+  userProfile.gradYear=document.getElementById('onb-grad-year')?.value||'2028';
+  userProfile.service=document.getElementById('onb-service')?.value||'General Surgery';
+  userProfile.rotationStart=document.getElementById('onb-rotation-start')?.value||'';
+  userProfile.rotationEnd=document.getElementById('onb-rotation-end')?.value||'';
+  userProfile.fellowship=document.getElementById('onb-fellowship')?.value||'Not sure yet';
+  userProfile.fellowshipSecondary=document.getElementById('onb-fellowship-secondary')?.value||'';
+  userProfile.orcid=document.getElementById('onb-orcid')?.value.trim()||'';
+  userProfile.pdName=document.getElementById('onb-pd-name')?.value.trim()||'';
+  userProfile.pdEmail=document.getElementById('onb-pd-email')?.value.trim()||'';
+  userProfile.onboardingComplete=true;
+  applyUserProfile();
+  showToast('Welcome, '+userProfile.name.split(' ')[0]+'!');
+  navigate('rotation');
+}
+
+function applyUserProfile(){
+  if(!userProfile.onboardingComplete)return;
+  const firstName=userProfile.name.split(' ')[0]||'Resident';
+  // Avatar initials
+  const avatar=document.getElementById('nav-avatar');
+  if(avatar&&userProfile.name){
+    const parts=userProfile.name.trim().split(' ');
+    avatar.textContent=parts.length>=2?parts[0][0].toUpperCase()+parts[parts.length-1][0].toUpperCase():parts[0].slice(0,2).toUpperCase();
+  }
+  // Case log eyebrow
+  const clEyebrow=document.querySelector('#page-caselogs .page-eyebrow');
+  if(clEyebrow)clEyebrow.textContent=userProfile.service+' Residency · PGY-'+userProfile.pgy;
+  // Service switcher label
+  const serviceLabel=document.getElementById('service-label');
+  if(serviceLabel)serviceLabel.textContent=userProfile.service;
+  // Rotation page header
+  const rotH1=document.querySelector('#page-rotation h1');
+  if(rotH1)rotH1.textContent=userProfile.service+' Rotation';
+  // Rotation sidebar dates
+  const sbRotStart=document.getElementById('sb-rot-start');
+  const sbRotEnd=document.getElementById('sb-rot-end');
+  if(sbRotStart&&userProfile.rotationStart){
+    const fmt=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    sbRotStart.textContent='Start: '+fmt(userProfile.rotationStart);
+    sbRotEnd.textContent='End: '+fmt(userProfile.rotationEnd);
+  }
+  // Sidebar fellowship goal
+  const sbFellowship=document.getElementById('sb-fellowship-goal');
+  if(sbFellowship)sbFellowship.textContent=userProfile.fellowship;
+  // Sidebar rotation select
+  const sbRotSelect=document.querySelector('#sb-rotation select');
+  if(sbRotSelect)sbRotSelect.value=userProfile.service;
+  // Reload feeds
+  if(typeof loadBTKFeed==='function')setTimeout(loadBTKFeed,100);
+}
+
+function togglePDFields(){
+  const fields=document.getElementById('onb-pd-fields');
+  const btn=document.getElementById('onb-pd-toggle');
+  if(!fields)return;
+  fields.classList.toggle('open');
+  if(btn)btn.textContent=fields.classList.contains('open')?'▾ Hide program director':'+ Add your program director (optional)';
+}
+
+function buildOnboardingPage(){
+  const today=new Date().toISOString().slice(0,10);
+  const endDate=new Date();endDate.setDate(endDate.getDate()+56);
+  const defaultEnd=endDate.toISOString().slice(0,10);
+  const el=document.getElementById('page-onboarding');
+  if(!el)return;
+  el.innerHTML=`
+<div class="login-page-wrap"><div class="onb-wrapper">
+  <div class="onb-progress">
+    <div class="onb-progress-track"><div class="onb-progress-fill" id="onb-progress-fill" style="width:20%"></div></div>
+    <span class="onb-progress-label" id="onb-progress-label">Step 1 of 5</span>
+  </div>
+  <div class="onb-card">
+
+    <!-- STEP 1: Basic Info -->
+    <div id="onb-step-1" class="onb-step">
+      <h2 class="onb-step-title">Tell us about yourself</h2>
+      <p class="onb-step-sub">This personalises your dashboard and EPA notifications.</p>
+      <div class="field"><label class="field-label">Full name <span class="req">*</span></label><input type="text" id="onb-name" placeholder="Dr. Jane Smith" autocomplete="name"/></div>
+      <div class="field"><label class="field-label">Phone number <span class="req">*</span></label><input type="tel" id="onb-phone" placeholder="+1 (555) 000-0000" autocomplete="tel"/><span class="login-hint">Used for EPA feedback SMS notifications from attendings.</span></div>
+      <div class="field"><label class="field-label">Role <span class="req">*</span></label><select id="onb-role"><option value="Resident">Resident</option><option value="Fellow">Fellow</option><option value="Attending">Attending</option><option value="GME Coordinator">GME Coordinator</option></select></div>
+      <div class="onb-nav"><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 2: Training Level -->
+    <div id="onb-step-2" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Your training level</h2>
+      <p class="onb-step-sub">Sets your ACGME requirements and case log targets.</p>
+      <div class="form-grid-2">
+        <div class="field"><label class="field-label">PGY Year <span class="req">*</span></label><select id="onb-pgy"><option value="1">PGY-1</option><option value="2">PGY-2</option><option value="3">PGY-3</option><option value="4">PGY-4</option><option value="5">PGY-5</option></select></div>
+        <div class="field"><label class="field-label">Expected graduation <span class="req">*</span></label><select id="onb-grad-year"><option value="2026">2026</option><option value="2027">2027</option><option value="2028" selected>2028</option><option value="2029">2029</option><option value="2030">2030</option></select></div>
+      </div>
+      <div class="onb-nav"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 3: Rotation -->
+    <div id="onb-step-3" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Your current rotation</h2>
+      <p class="onb-step-sub">GuideFlow shows relevant guidelines, podcasts, and on-call info for your service.</p>
+      <div class="field"><label class="field-label">Current service <span class="req">*</span></label><select id="onb-service"><option value="General Surgery">General Surgery</option><option value="Trauma Surgery">Trauma Surgery</option><option value="Vascular Surgery">Vascular Surgery</option><option value="Colorectal">Colorectal</option><option value="Hepatobiliary">Hepatobiliary</option><option value="Breast Surgery">Breast Surgery</option><option value="Endocrine Surgery">Endocrine Surgery</option><option value="Thoracic Surgery">Thoracic Surgery</option><option value="Pediatric Surgery">Pediatric Surgery</option><option value="Surgical Critical Care">Surgical Critical Care</option></select></div>
+      <div class="form-grid-2">
+        <div class="field"><label class="field-label">Start date <span class="req">*</span></label><input type="date" id="onb-rotation-start" value="${today}"/></div>
+        <div class="field"><label class="field-label">End date <span class="req">*</span></label><input type="date" id="onb-rotation-end" value="${defaultEnd}"/><span class="login-hint">Typically 4–8 weeks from start.</span></div>
+      </div>
+      <div class="onb-nav"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 4: Fellowship -->
+    <div id="onb-step-4" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Your fellowship goal</h2>
+      <p class="onb-step-sub">We benchmark your cases and research against matched applicants for your target fellowship.</p>
+      <div class="field"><label class="field-label">Primary interest <span class="req">*</span></label><select id="onb-fellowship"><option value="Not sure yet">Not sure yet</option><option value="Colorectal Surgery (CRS)">Colorectal Surgery (CRS)</option><option value="HPB Surgery" selected>Hepatobiliary (HPB)</option><option value="Minimally Invasive / Bariatric (MIS)">Minimally Invasive / Bariatric (MIS)</option><option value="Surgical Oncology">Surgical Oncology</option><option value="Vascular Surgery">Vascular Surgery</option><option value="Thoracic Surgery">Thoracic Surgery</option><option value="Breast Surgery">Breast Surgery</option><option value="Pediatric Surgery">Pediatric Surgery</option><option value="Surgical Critical Care">Surgical Critical Care</option><option value="Transplant Surgery">Transplant Surgery</option></select></div>
+      <div class="field"><label class="field-label">Secondary interest <span style="color:var(--text-3);font-weight:400">(optional)</span></label><select id="onb-fellowship-secondary"><option value="">None</option><option value="Colorectal Surgery (CRS)">Colorectal Surgery (CRS)</option><option value="HPB Surgery">Hepatobiliary (HPB)</option><option value="Minimally Invasive / Bariatric (MIS)">Minimally Invasive / Bariatric (MIS)</option><option value="Surgical Oncology">Surgical Oncology</option><option value="Vascular Surgery">Vascular Surgery</option><option value="Thoracic Surgery">Thoracic Surgery</option><option value="Breast Surgery">Breast Surgery</option><option value="Pediatric Surgery">Pediatric Surgery</option><option value="Surgical Critical Care">Surgical Critical Care</option><option value="Transplant Surgery">Transplant Surgery</option></select></div>
+      <div class="onb-nav"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="onbNext()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 5: Research + PD -->
+    <div id="onb-step-5" class="onb-step" style="display:none">
+      <h2 class="onb-step-title">Research profile</h2>
+      <p class="onb-step-sub">Optional — connect your ORCID to track publications toward your fellowship goal.</p>
+      <div class="orcid-badge"><div class="orcid-logo">iD</div><span class="orcid-badge-text">ORCID is the standard researcher ID used by journals and funding agencies. Connecting it takes 30 seconds.</span></div>
+      <div class="field"><label class="field-label">ORCID iD</label><input type="text" id="onb-orcid" placeholder="0000-0000-0000-0000" autocomplete="off"/><span class="login-hint">Format: XXXX-XXXX-XXXX-XXXX &nbsp;·&nbsp; <a href="https://orcid.org/register" target="_blank" rel="noopener" style="color:var(--ac-blue);text-decoration:none">Register free at orcid.org →</a></span></div>
+      <button class="onb-pd-expand" id="onb-pd-toggle" onclick="togglePDFields()">+ Add your program director (optional)</button>
+      <div class="onb-pd-fields" id="onb-pd-fields">
+        <div class="field"><label class="field-label">Program Director name</label><input type="text" id="onb-pd-name" placeholder="Dr. Program Director"/></div>
+        <div class="field"><label class="field-label">Program Director email</label><input type="email" id="onb-pd-email" placeholder="pd@hospital.org"/><span class="login-hint">Receives your rotation debrief at end of each rotation.</span></div>
+      </div>
+      <div class="onb-nav" style="margin-top:28px"><button class="onb-back" onclick="onbBack()">← Back</button><button class="onb-continue" onclick="completeOnboarding()" style="background:var(--ac-orange)">Get started →</button></div>
+      <button class="onb-skip-link" onclick="completeOnboarding()">Skip for now</button>
+    </div>
+
+  </div>
+</div></div>`;
+}
+
+document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();buildOnboardingPage();navigate(isLoggedIn?'rotation':'login');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none';setTimeout(function(){loadBTKFeed();buildDeadlineSection();},200);});
 function handleAddContact(btn){btn.disabled=true;btn.textContent='Adding...';setTimeout(function(){btn.disabled=false;btn.textContent='Add Contact';showToast('Contact added')},800)}
 (function(){var si=document.querySelector('.search-input');if(!si)return;si.addEventListener('input',function(){var q=si.value.trim().toLowerCase();var listRows=document.querySelectorAll('#list-view .list-row');var gridCards=document.querySelectorAll('#grid-view .guide-card');var matchCount=0;listRows.forEach(function(r){var name=r.querySelector('.list-name');var show=!q||name.textContent.toLowerCase().includes(q);r.style.display=show?'':'none';if(show)matchCount++});gridCards.forEach(function(c){var title=c.querySelector('.guide-title');var show=!q||title.textContent.toLowerCase().includes(q);c.style.display=show?'':'none'});var lv=document.getElementById('list-view');var gv=document.getElementById('grid-view');var existingEmpty=document.querySelectorAll('.empty-search');existingEmpty.forEach(function(e){e.remove()});if(q&&matchCount===0){var msg=document.createElement('div');msg.className='empty-search';msg.textContent='No guidelines found for "'+si.value.trim()+'"';lv.appendChild(msg.cloneNode(true));gv.appendChild(msg)}})})();
 // Keyboard support for role="button" elements and sidebar toggles
