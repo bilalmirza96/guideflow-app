@@ -941,6 +941,45 @@ body.on-login .site-footer{display:none;}
 </div>
 <button class="btn-primary" onclick="submitCaseWithEpa()">Log Case</button></div></div><div class="panel"><div class="panel-header"><span class="panel-title">Recent Cases</span><span class="panel-sub" id="case-count-label">127 logged</span></div><div style="padding:0"><table class="cases-table"><thead><tr><th>Procedure</th><th>Date</th><th>Role</th><th>Category</th></tr></thead><tbody id="cases-tbody"><tr><td class="case-name">Lap Cholecystectomy</td><td>Mar 10</td><td><span class="role-badge sj">SJ</span></td><td>Biliary</td></tr><tr><td class="case-name">Appendectomy</td><td>Mar 8</td><td><span class="role-badge sj">SJ</span></td><td>Appendix</td></tr><tr><td class="case-name">Inguinal Hernia Repair</td><td>Mar 6</td><td><span class="role-badge sj">SJ</span></td><td>Hernia</td></tr><tr><td class="case-name">Exploratory Laparotomy</td><td>Mar 5</td><td><span class="role-badge fa">FA</span></td><td>Abdominal</td></tr><tr><td class="case-name">Sigmoid Colectomy</td><td>Mar 3</td><td><span class="role-badge fa">FA</span></td><td>Large Intestine</td></tr><tr><td class="case-name">Thyroidectomy</td><td>Mar 1</td><td><span class="role-badge sj">SJ</span></td><td>Endocrine</td></tr><tr><td class="case-name">Upper Endoscopy (EGD)</td><td>Feb 28</td><td><span class="role-badge sj">SJ</span></td><td>Upper Endoscopy</td></tr><tr><td class="case-name">Pancreaticoduodenectomy</td><td>Feb 26</td><td><span class="role-badge fa">FA</span></td><td>Pancreas</td></tr></tbody></table></div></div></div></div></div>
 
+<!-- Voice Dictation Modal -->
+<div class="modal-backdrop" id="dictation-backdrop" style="display:none" onclick="closeDictation(false)"></div>
+<div class="modal-card" id="dictation-modal" style="display:none">
+  <div class="modal-content">
+    <div class="listening-indicator">
+      <div class="pulse-dot"></div>
+      <span class="listening-text">Listening...</span>
+    </div>
+    <p class="modal-subtitle">Speak your case details...</p>
+    <div class="modal-button-group">
+      <button class="btn-primary" onclick="closeDictation(true)">Done</button>
+      <button class="btn-ghost" onclick="closeDictation(false)">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Post-Submission EPA Modal -->
+<div class="modal-backdrop" id="epa-backdrop" style="display:none" onclick="closeEpaModal(false)"></div>
+<div class="modal-card" id="epa-modal" style="display:none">
+  <div class="modal-content">
+    <h2 class="modal-title">Request EPA Assessment?</h2>
+    <p class="modal-subtitle">Send a feedback request to your attending for this case</p>
+    <div class="epa-case-summary">
+      <div class="case-summary-left">
+        <span class="case-procedure-name" id="epa-procedure-name"></span>
+        <span class="role-badge" id="epa-role-badge"></span>
+      </div>
+      <span class="case-summary-date" id="epa-case-date"></span>
+    </div>
+    <div class="epa-suggestion">
+      <span class="epa-dot"></span>
+      <span class="epa-suggestion-text" id="epa-suggestion-text">Suggested: EPA-1</span>
+    </div>
+    <div class="epa-button-group">
+      <button class="btn-primary" onclick="closeEpaModal(true)">Send Request</button>
+      <button class="btn-ghost" onclick="closeEpaModal(false)">Skip</button>
+    </div>
+  </div>
+</div>
 
 <!-- ADMIN -->
 <div class="page" id="page-admin"><div class="main" style="max-width:1100px">
@@ -1939,6 +1978,181 @@ const months=['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb',
 chartTrend=new Chart(document.getElementById('chart-trend'),{type:'bar',data:{labels:months,datasets:[{data:vals,backgroundColor:barC,hoverBackgroundColor:barH,borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:getCSS('--bg-raised'),titleColor:getCSS('--text-1'),bodyColor:getCSS('--text-2'),borderColor:border,borderWidth:1,padding:10,cornerRadius:8,displayColors:false,callbacks:{label:ctx=>ctx.raw+' cases'}}},scales:{x:{grid:{display:false},ticks:{color:txt3,font:{family:'DM Sans',size:11}},border:{display:false}},y:{grid:{color:border,lineWidth:0.5},ticks:{color:txt3,font:{family:'DM Sans',size:11},stepSize:5},border:{display:false},beginAtZero:true}}}});
 chartRoles=new Chart(document.getElementById('chart-roles'),{type:'doughnut',data:{labels:['SJ','FA','TA','SC'],datasets:[{data:[roleCounts.SJ,roleCounts.FA,roleCounts.TA,roleCounts.SC],backgroundColor:[rSJ,rFA,rTA,rSC],borderWidth:0,borderRadius:3}]},options:{cutout:'65%',responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:getCSS('--bg-raised'),titleColor:getCSS('--text-1'),bodyColor:getCSS('--text-2'),borderColor:border,borderWidth:1,padding:8,cornerRadius:8,displayColors:true,boxWidth:8,boxHeight:8}}}});
 }
+/* ========================================
+   LOG TYPE TOGGLE FUNCTIONALITY
+   ======================================== */
+function switchLogType(type) {
+  const operativeForm = document.getElementById('operative-form');
+  const bedsideForm = document.getElementById('bedside-form');
+  const toggleOperative = document.getElementById('toggle-operative');
+  const toggleBedside = document.getElementById('toggle-bedside');
+  if (type === 'operative') {
+    operativeForm.style.display = 'block';
+    bedsideForm.style.display = 'none';
+    toggleOperative.classList.add('active');
+    toggleBedside.classList.remove('active');
+  } else if (type === 'bedside') {
+    operativeForm.style.display = 'none';
+    bedsideForm.style.display = 'block';
+    toggleBedside.classList.add('active');
+    toggleOperative.classList.remove('active');
+  }
+}
+
+/* ========================================
+   VOICE DICTATION MODAL
+   ======================================== */
+function openDictation() {
+  const backdrop = document.getElementById('dictation-backdrop');
+  const modal = document.getElementById('dictation-modal');
+  backdrop.style.display = 'block';
+  modal.style.display = 'block';
+  backdrop.classList.add('visible');
+  modal.classList.add('visible');
+}
+
+function closeDictation(applyMock) {
+  const backdrop = document.getElementById('dictation-backdrop');
+  const modal = document.getElementById('dictation-modal');
+  backdrop.style.display = 'none';
+  modal.style.display = 'none';
+  backdrop.classList.remove('visible');
+  modal.classList.remove('visible');
+  if (applyMock) {
+    document.getElementById('f-proc').value = 'Laparoscopic Cholecystectomy';
+    document.getElementById('f-role').value = 'SJ';
+    document.getElementById('f-cat').value = 'Biliary';
+    document.getElementById('f-autonomy').value = 'passive-help';
+    showToast('Voice transcription applied');
+  }
+}
+
+/* ========================================
+   EPA ASSESSMENT MODAL
+   ======================================== */
+function showEpaModal(procName, role, date) {
+  const backdrop = document.getElementById('epa-backdrop');
+  const modal = document.getElementById('epa-modal');
+  document.getElementById('epa-procedure-name').textContent = procName;
+  const roleBadge = document.getElementById('epa-role-badge');
+  roleBadge.textContent = role;
+  roleBadge.className = 'role-badge ' + role.toLowerCase();
+  const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric'
+  });
+  document.getElementById('epa-case-date').textContent = formattedDate;
+  backdrop.style.display = 'block';
+  modal.style.display = 'block';
+  backdrop.classList.add('visible');
+  modal.classList.add('visible');
+  window.currentEpaCase = { procedureName: procName, role: role, date: date };
+}
+
+function closeEpaModal(sendRequest) {
+  const backdrop = document.getElementById('epa-backdrop');
+  const modal = document.getElementById('epa-modal');
+  backdrop.style.display = 'none';
+  modal.style.display = 'none';
+  backdrop.classList.remove('visible');
+  modal.classList.remove('visible');
+  if (sendRequest && window.currentEpaCase) {
+    showToast('EPA request sent to attending');
+    const caseRows = document.querySelectorAll('[data-case-row]');
+    if (caseRows.length > 0) {
+      const mostRecentRow = caseRows[caseRows.length - 1];
+      if (!mostRecentRow.querySelector('.case-epa-badge')) {
+        const badge = document.createElement('span');
+        badge.className = 'case-epa-badge';
+        badge.textContent = 'EPA SENT';
+        const procCell = mostRecentRow.querySelector('[data-procedure-name]');
+        if (procCell) procCell.appendChild(badge);
+      }
+    }
+  }
+  window.currentEpaCase = null;
+}
+
+/* ========================================
+   OPERATIVE CASE SUBMISSION WITH EPA FLOW
+   ======================================== */
+function submitCaseWithEpa() {
+  const procedure = document.getElementById('f-proc');
+  const role = document.getElementById('f-role');
+  const date = document.getElementById('f-date');
+
+  if (!procedure || !procedure.value || !role || !role.value || !date || !date.value) {
+    showToast('Please fill in required fields');
+    return;
+  }
+
+  const procName = procedure.value;
+  const roleValue = role.value;
+  const dateValue = date.value;
+
+  submitCase();
+  showEpaModal(procName, roleValue, dateValue);
+}
+
+/* ========================================
+   BEDSIDE PROCEDURE FORM SUBMISSION
+   ======================================== */
+function submitBedside() {
+  const procedureType = document.getElementById('f-bp-type').value;
+  const site = document.getElementById('f-bp-site').value;
+  const ultrasound = document.getElementById('f-bp-us').checked;
+  const supervised = document.getElementById('f-bp-super').value;
+  const complications = document.getElementById('f-bp-comp').value;
+  const date = document.getElementById('f-bp-date').value;
+  const attending = document.getElementById('f-bp-attending').value;
+  const comments = document.getElementById('f-bp-notes').value;
+  if (!procedureType || !date) {
+    showToast('Please fill in all required fields');
+    return;
+  }
+  const submissionData = {
+    type: 'bedside', procedureType, site, ultrasoundGuided: ultrasound,
+    supervised, complications, date, attending, comments,
+    timestamp: new Date().toISOString()
+  };
+  console.log('Bedside procedure submission:', submissionData);
+  addBedsideCaseToTable(submissionData);
+  resetBedsideForm();
+  showToast('Bedside procedure logged successfully');
+}
+
+function resetBedsideForm() {
+  document.getElementById('f-bp-type').value = '';
+  document.getElementById('f-bp-site').value = '';
+  document.getElementById('f-bp-us').checked = false;
+  document.getElementById('f-bp-super').value = '';
+  document.getElementById('f-bp-comp').value = '';
+  document.getElementById('f-bp-date').value = '';
+  document.getElementById('f-bp-attending').value = '';
+  document.getElementById('f-bp-notes').value = '';
+}
+
+function addBedsideCaseToTable(caseData) {
+  const tbody = document.querySelector('[data-case-log-tbody]');
+  if (!tbody) return;
+  const row = document.createElement('tr');
+  row.setAttribute('data-case-row', 'true');
+  const procedureMap = {
+    'Central Line (IJ)': 'Central Line (IJ)', 'Central Line (Subclavian)': 'Central Line (Subclavian)',
+    'Central Line (Femoral)': 'Central Line (Femoral)', 'Arterial Line (Radial)': 'Arterial Line (Radial)',
+    'Arterial Line (Femoral)': 'Arterial Line (Femoral)', 'Chest Tube': 'Chest Tube',
+    'Thoracentesis': 'Thoracentesis', 'Paracentesis': 'Paracentesis',
+    'Wound VAC': 'Wound VAC', 'Abscess I&D': 'Abscess I&D',
+    'Tracheostomy Care': 'Tracheostomy Care', 'G/J-Tube Management': 'G/J-Tube Management',
+    'Drain Management': 'Drain Management'
+  };
+  const procName = procedureMap[caseData.procedureType] || caseData.procedureType;
+  const formattedDate = new Date(caseData.date + 'T12:00:00').toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric'
+  });
+  row.innerHTML = `<td data-procedure-name>${procName}</td><td>${caseData.site}</td><td>${caseData.ultrasoundGuided ? 'Yes' : 'No'}</td><td>${caseData.supervised}</td><td>${caseData.complications}</td><td>${caseData.attending}</td><td>${formattedDate}</td>`;
+  tbody.appendChild(row);
+}
+
 function navigate(page){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('sb-home').style.display='none';document.getElementById('sb-caselogs').style.display='none';document.getElementById('sb-admin').style.display='none';document.getElementById('sb-rotation').style.display='none';document.getElementById('sb-fellowship').style.display='none';document.getElementById('sb-heatmap').style.display='none';document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const isLogin=page==='login';document.body.classList.toggle('on-login',isLogin);document.getElementById('app-layout').style.display=isLogin?'none':'';const lb=document.getElementById('nav-login-btn');lb.style.display=isLogin?'none':'';lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn&&!isLogin?'':'none';
 if(page==='home'){document.getElementById('page-home').classList.add('active');document.getElementById('sb-home').style.display='';document.getElementById('nav-guidelines').classList.add('active')}
 else if(page==='caselogs'){document.getElementById('page-caselogs').classList.add('active');document.getElementById('sb-caselogs').style.display='';document.getElementById('nav-analytics').classList.add('active');document.getElementById('dd-caselogs').classList.add('dd-active');setTimeout(initCharts,80);setTimeout(animateBars,200);chartsNeedRefresh=false}
