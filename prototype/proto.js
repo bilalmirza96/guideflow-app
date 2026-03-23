@@ -109,17 +109,7 @@ function replaceSection(src, sectionName, newContent) {
 function setActiveNav(navHtml, navId) {
   if (!navId) return navHtml;
   // Strip 'active' from all nav-btn classes
-  // Handle both class="nav-btn active" and class="nav-btn  active" etc.
-  let result = navHtml.replace(/(<button\s[^>]*class="[^"]*?)(\s+active|\bactive\s+)([^"]*nav-btn[^"]*")/g, function(match, pre, act, post) {
-    return pre + post;
-  });
-  result = result.replace(/(<button\s[^>]*class="nav-btn)(\s+active)(")/g, '$1$3');
-  result = result.replace(/(<button\s[^>]*class="active\s+nav-btn)(")/g, function(match, pre, post) {
-    return pre.replace('active ', '') + post;
-  });
-
-  // More robust: use a regex that finds nav-btn with optional active and strips active
-  result = navHtml.replace(/class="([^"]*)"/g, function(match, classes) {
+  let result = navHtml.replace(/class="([^"]*)"/g, function(match, classes) {
     if (classes.indexOf('nav-btn') === -1) return match;
     const cleaned = classes.replace(/\bactive\b/g, '').replace(/\s+/g, ' ').trim();
     return 'class="' + cleaned + '"';
@@ -217,6 +207,9 @@ function extractPage(pageKey) {
   let styleContent = styles;
   styleContent = styleContent.replace(/^\s*<style>\s*/, '').replace(/\s*<\/style>\s*$/, '');
 
+  // Strip nested page-specific markers from shared styles to avoid duplication
+  styleContent = styleContent.replace(/\/\* SECTION:styles:\w+ START \*\/[\s\S]*?\/\* SECTION:styles:\w+ END \*\//g, '');
+
   html += styleContent + '\n';
 
   // Page-specific styles if they exist
@@ -294,14 +287,10 @@ function extractPage(pageKey) {
   let scriptContent = scripts;
   scriptContent = scriptContent.replace(/^\s*<script>\s*/, '').replace(/\s*<\/script>\s*$/, '');
 
-  // Include page-specific scripts with markers
-  if (pageScripts) {
-    // The page-specific scripts are already inside the shared scripts section in the monolith.
-    // We just output the full scripts block which already contains them.
-    html += scriptContent + '\n';
-  } else {
-    html += scriptContent + '\n';
-  }
+  // Strip nested page-specific markers from shared scripts to avoid duplication
+  scriptContent = scriptContent.replace(/\/\/ SECTION:scripts:\w+ START[\s\S]*?\/\/ SECTION:scripts:\w+ END/g, '');
+
+  html += scriptContent + '\n';
 
   html += '<\/script>\n';
   html += '<!-- SECTION:scripts END -->\n';
