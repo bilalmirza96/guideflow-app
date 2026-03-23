@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rss-parser/3.13.0/rss-parser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/3.6.0/cdn.min.js"></script>
 <!-- SECTION:styles START -->
 <style>
 [data-theme="dark"]{
@@ -635,6 +638,31 @@ body.on-login .site-footer{display:none;}
 /* Procedure sidebar additions */
 /* SECTION:styles:heatmap END */
 
+/* PODCAST FEED */
+.podcast-section{margin-top:48px;}
+.podcast-card{background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.podcast-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.podcast-header-left{display:flex;align-items:center;gap:8px;}
+.podcast-title{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);}
+.podcast-loading{padding:24px 20px;font-size:14px;color:var(--text-3);}
+.podcast-episode{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--border);transition:background .12s;cursor:pointer;}
+.podcast-episode:last-child{border-bottom:none;}
+.podcast-episode:hover{background:var(--bg-hover);}
+.podcast-play{width:32px;height:32px;border-radius:50%;border:1px solid var(--border-hi);background:var(--accent-dim);display:grid;place-items:center;flex-shrink:0;color:var(--text-2);transition:background .14s,color .14s;}
+.podcast-episode:hover .podcast-play{background:var(--accent-dim2);color:var(--text-1);}
+.podcast-ep-body{flex:1;min-width:0;}
+.podcast-ep-title{font-size:14px;font-weight:400;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.podcast-ep-meta{font-size:12px;color:var(--text-3);}
+.podcast-ep-duration{font-size:12px;color:var(--text-3);flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+/* CSV EXPORT BUTTON */
+.export-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-2);background:none;border:1px solid var(--border-hi);border-radius:7px;padding:6px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .14s,border-color .14s,background .14s;}
+.export-btn:hover{color:var(--text-1);border-color:var(--text-3);background:var(--accent-dim);}
+
+/* DEADLINE DATES */
+.deadline-date{font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums;}
+.deadline-date.urgent{color:var(--ac-orange);}
+
 </style>
 <!-- SECTION:styles END -->
 </head>
@@ -831,7 +859,39 @@ body.on-login .site-footer{display:none;}
 <line x1="50" y1="67" x2="60" y2="67" stroke="#1a1210" stroke-width="1.5" stroke-linecap="round"/>
 <path d="M50 48L53 45L56 47L59 43L62 46L65 42L68 44" stroke="#1a1210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg></div><div class="guide-card-body"><span class="guide-date">Feb 28, 2026</span><div class="guide-title">Post-Op Pain Management</div><span class="tag">Surgery</span></div></a>
-</div></div></div>
+</div></div>
+
+<!-- PODCAST FEED SECTION -->
+<div class="podcast-section">
+  <div class="sec-hd">
+    <span class="sec-label">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:5px"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      Listen — General Surgery
+    </span>
+    <span class="deadline-date" id="btk-status"></span>
+  </div>
+  <div class="podcast-card">
+    <div id="podcast-feed-content">
+      <div class="podcast-loading">Loading episodes from Behind the Knife…</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFERENCE DEADLINES SECTION -->
+<div class="podcast-section">
+  <div class="sec-hd">
+    <span class="sec-label">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:5px"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Abstract Deadlines
+    </span>
+    <span style="font-size:12px;color:var(--text-3)">Filtered for your fellowship goal</span>
+  </div>
+  <div class="list-card" id="deadline-section">
+    <div class="podcast-loading">Calculating deadlines…</div>
+  </div>
+</div>
+
+</div></div>
 <!-- SECTION:page:home END -->
 <!-- SECTION:page:caselogs START -->
 <div class="page" id="page-caselogs"><div class="main" style="max-width:1100px"><span class="page-eyebrow">General Surgery Residency · PGY-1</span><h1 class="page-title">Case Log</h1><p class="page-sub">Log operative cases and track progress toward ACGME graduation requirements.</p><div class="cl-hero"><div class="cl-donut-card"><div class="cl-donut-wrap"><canvas id="chart-donut"></canvas><div class="cl-donut-center"><span class="cl-donut-num" id="donut-num">127</span><span class="cl-donut-denom">of 850</span></div></div><span class="cl-donut-label">Total Major Cases</span></div><div class="cl-trend-card"><div class="cl-trend-header"><span class="cl-trend-title">Monthly Case Volume</span><span class="cl-trend-total">Last 12 months</span></div><div class="cl-trend-chart-wrap"><canvas id="chart-trend"></canvas></div></div></div><div class="metrics-strip" id="metric-strip"><div class="cl-metric"><span class="cl-metric-label">Chief Year (SC)</span><div class="cl-metric-row"><span class="cl-metric-num">0</span><span class="cl-metric-denom">/ 200</span></div><div class="cl-metric-bar"><div class="cl-metric-fill orange" style="width:0%"></div></div></div><div class="cl-metric"><span class="cl-metric-label">PGY-3 Cutoff</span><div class="cl-metric-row"><span class="cl-metric-num" id="m-pgy3">127</span><span class="cl-metric-denom">/ 250</span></div><div class="cl-metric-bar"><div class="cl-metric-fill blue" id="m-pgy3-bar" style="width:50.8%"></div></div></div><div class="cl-metric"><span class="cl-metric-label">Teaching Asst</span><div class="cl-metric-row"><span class="cl-metric-num">4</span><span class="cl-metric-denom">/ 25</span></div><div class="cl-metric-bar"><div class="cl-metric-fill green" style="width:16%"></div></div></div><div class="cl-metric"><span class="cl-metric-label">This Month</span><div class="cl-metric-row"><span class="cl-metric-num" id="m-month">14</span><span class="cl-metric-denom">cases</span></div><div class="cl-metric-bar"><div class="cl-metric-fill neutral" style="width:70%"></div></div></div></div><div class="cl-charts-row"><div class="cl-role-card"><span class="cl-role-title">Role Breakdown</span><div class="cl-role-chart-wrap"><canvas id="chart-roles"></canvas></div><div class="cl-role-legend"><div class="cl-role-item"><span class="cl-role-dot" style="background:var(--chart-role-sj)"></span>Surgeon Junior<span class="cl-role-val" id="rl-sj">98</span></div><div class="cl-role-item"><span class="cl-role-dot" style="background:var(--chart-role-fa)"></span>First Assistant<span class="cl-role-val" id="rl-fa">25</span></div><div class="cl-role-item"><span class="cl-role-dot" style="background:var(--chart-role-ta)"></span>Teaching Asst<span class="cl-role-val" id="rl-ta">4</span></div><div class="cl-role-item"><span class="cl-role-dot" style="background:var(--chart-role-sc)"></span>Surgeon Chief<span class="cl-role-val" id="rl-sc">0</span></div></div></div><div class="cl-acgme-card"><div class="cl-acgme-header"><span class="cl-acgme-title">ACGME Category Progress</span><button class="sec-action">Export <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div><div class="cl-acgme-body" id="acgme-bars"></div></div></div><div class="two-col"><div class="panel"><div class="panel-header"><span class="panel-title">Log a Case</span><span class="panel-sub"><button class="sec-action" id="btn-dictate" onclick="openDictation()" style="margin-left:auto;display:flex;align-items:center;gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>Dictate</button>* required</span></div><div class="panel-body">
@@ -876,7 +936,16 @@ body.on-login .site-footer{display:none;}
 <div class="field"><label class="field-label">Comments</label><textarea id="f-bp-notes" rows="2" placeholder="Any complications or notes..."></textarea></div>
 <button class="btn-primary" onclick="submitBedside()">Log Procedure</button>
 </div>
-<button class="btn-primary" onclick="submitCaseWithEpa()">Log Case</button></div></div><div class="panel"><div class="panel-header"><span class="panel-title">Recent Cases</span><span class="panel-sub" id="case-count-label">127 logged</span></div><div style="padding:0"><table class="cases-table"><thead><tr><th>Procedure</th><th>Date</th><th>Role</th><th>Category</th></tr></thead><tbody id="cases-tbody"><tr><td class="case-name">Lap Cholecystectomy</td><td>Mar 10</td><td><span class="role-badge sj">SJ</span></td><td>Biliary</td></tr><tr><td class="case-name">Appendectomy</td><td>Mar 8</td><td><span class="role-badge sj">SJ</span></td><td>Appendix</td></tr><tr><td class="case-name">Inguinal Hernia Repair</td><td>Mar 6</td><td><span class="role-badge sj">SJ</span></td><td>Hernia</td></tr><tr><td class="case-name">Exploratory Laparotomy</td><td>Mar 5</td><td><span class="role-badge fa">FA</span></td><td>Abdominal</td></tr><tr><td class="case-name">Sigmoid Colectomy</td><td>Mar 3</td><td><span class="role-badge fa">FA</span></td><td>Large Intestine</td></tr><tr><td class="case-name">Thyroidectomy</td><td>Mar 1</td><td><span class="role-badge sj">SJ</span></td><td>Endocrine</td></tr><tr><td class="case-name">Upper Endoscopy (EGD)</td><td>Feb 28</td><td><span class="role-badge sj">SJ</span></td><td>Upper Endoscopy</td></tr><tr><td class="case-name">Pancreaticoduodenectomy</td><td>Feb 26</td><td><span class="role-badge fa">FA</span></td><td>Pancreas</td></tr></tbody></table></div></div></div></div></div>
+<button class="btn-primary" onclick="submitCaseWithEpa()">Log Case</button></div></div><div class="panel"><div class="panel-header">
+  <span class="panel-title">Recent Cases</span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="panel-sub" id="case-count-label">127 logged</span>
+    <button class="export-btn" onclick="exportCasesCSV()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+  </div>
+</div><div style="padding:0"><table class="cases-table"><thead><tr><th>Procedure</th><th>Date</th><th>Role</th><th>Category</th></tr></thead><tbody id="cases-tbody"><tr><td class="case-name">Lap Cholecystectomy</td><td>Mar 10</td><td><span class="role-badge sj">SJ</span></td><td>Biliary</td></tr><tr><td class="case-name">Appendectomy</td><td>Mar 8</td><td><span class="role-badge sj">SJ</span></td><td>Appendix</td></tr><tr><td class="case-name">Inguinal Hernia Repair</td><td>Mar 6</td><td><span class="role-badge sj">SJ</span></td><td>Hernia</td></tr><tr><td class="case-name">Exploratory Laparotomy</td><td>Mar 5</td><td><span class="role-badge fa">FA</span></td><td>Abdominal</td></tr><tr><td class="case-name">Sigmoid Colectomy</td><td>Mar 3</td><td><span class="role-badge fa">FA</span></td><td>Large Intestine</td></tr><tr><td class="case-name">Thyroidectomy</td><td>Mar 1</td><td><span class="role-badge sj">SJ</span></td><td>Endocrine</td></tr><tr><td class="case-name">Upper Endoscopy (EGD)</td><td>Feb 28</td><td><span class="role-badge sj">SJ</span></td><td>Upper Endoscopy</td></tr><tr><td class="case-name">Pancreaticoduodenectomy</td><td>Feb 26</td><td><span class="role-badge fa">FA</span></td><td>Pancreas</td></tr></tbody></table></div></div></div></div></div>
 <!-- SECTION:page:caselogs END -->
 
 <!-- SECTION:modals:caselogs START -->
@@ -2013,7 +2082,12 @@ function addBedsideCaseToTable(caseData) {
 // SECTION:scripts:caselogs END
 
 function navigate(page){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('sb-home').style.display='none';document.getElementById('sb-caselogs').style.display='none';document.getElementById('sb-admin').style.display='none';document.getElementById('sb-rotation').style.display='none';document.getElementById('sb-fellowship').style.display='none';document.getElementById('sb-heatmap').style.display='none';document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const isLogin=page==='login';document.body.classList.toggle('on-login',isLogin);document.getElementById('app-layout').style.display=isLogin?'none':'';const lb=document.getElementById('nav-login-btn');lb.style.display=isLogin?'none':'';lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn&&!isLogin?'':'none';
-if(page==='home'){document.getElementById('page-home').classList.add('active');document.getElementById('sb-home').style.display='';document.getElementById('nav-guidelines').classList.add('active')}
+if(page==='home'){
+  document.getElementById('page-home').classList.add('active');
+  document.getElementById('sb-home').style.display='';
+  document.getElementById('nav-guidelines').classList.add('active');
+  setTimeout(()=>{ loadBTKFeed(); buildDeadlineSection(); }, 100);
+}
 else if(page==='caselogs'){document.getElementById('page-caselogs').classList.add('active');document.getElementById('sb-caselogs').style.display='';document.getElementById('nav-analytics').classList.add('active');document.getElementById('dd-caselogs').classList.add('dd-active');setTimeout(initCharts,80);setTimeout(animateBars,200);chartsNeedRefresh=false}
 else if(page==='admin'){document.getElementById('page-admin').classList.add('active');document.getElementById('sb-admin').style.display='';document.getElementById('nav-admin').classList.add('active')}
 
@@ -2153,7 +2227,219 @@ function buildDeadlines(){
   </div>`;
   body.innerHTML=html;
 }
-document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();navigate('rotation');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none'});
+// ── RSS PARSER — Behind the Knife podcast feed ─────────────────────────────
+const BTK_RSS = 'https://feeds.megaphone.fm/behindtheknife';
+const BTK_PROXY = 'https://api.allorigins.win/get?url=' + encodeURIComponent(BTK_RSS);
+
+const rotationKeywords = {
+  'General Surgery': ['surgery','surgical','cholecystectomy','appendectomy','hernia','biliary','bowel','colon','laparoscopic','lap','abdominal'],
+  'Hepatobiliary': ['hepat','biliary','liver','pancrea','hpb','cholecystectomy','whipple','bile'],
+  'Colorectal': ['colorectal','colon','rectal','anorectal','colectomy','bowel','ostomy','stoma'],
+  'Trauma': ['trauma','injury','resuscitation','damage control','triage','emergency','acute care'],
+  'Vascular': ['vascular','aorta','carotid','bypass','endovascular','aortic','aneurysm'],
+  'Breast': ['breast','mastectomy','sentinel','axilla','oncoplastic'],
+  'Endocrine': ['thyroid','parathyroid','adrenal','endocrine'],
+  'Thoracic': ['thoracic','lung','esophag','mediastin','chest','thoracotomy'],
+  'Transplant': ['transplant','liver transplant','kidney','procurement','rejection','immunosuppression'],
+};
+
+function scoreEpisode(title, desc, rotation) {
+  const text = (title + ' ' + (desc||'')).toLowerCase();
+  const keywords = rotationKeywords[rotation] || rotationKeywords['General Surgery'];
+  return keywords.reduce((score, kw) => score + (text.includes(kw) ? 1 : 0), 0);
+}
+
+function formatDuration(seconds) {
+  if (!seconds) return '';
+  const s = parseInt(seconds);
+  if (isNaN(s)) {
+    return seconds.length > 5 ? seconds.slice(0,-3) + ' min' : seconds + ' min';
+  }
+  const m = Math.floor(s / 60);
+  return m > 0 ? m + ' min' : s + ' sec';
+}
+
+function formatPubDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch(e) { return ''; }
+}
+
+async function loadBTKFeed() {
+  const container = document.getElementById('podcast-feed-content');
+  const status = document.getElementById('btk-status');
+  if (!container) return;
+
+  const currentService = document.getElementById('service-label')?.textContent || 'General Surgery';
+
+  try {
+    const res = await fetch(BTK_PROXY);
+    const data = await res.json();
+    const parser = new RSSParser({
+      customFields: { item: [['itunes:duration','duration'],['itunes:summary','summary'],['itunes:image','image']] }
+    });
+    const feed = await parser.parseString(data.contents);
+
+    const scored = feed.items.map(item => ({
+      ...item,
+      score: scoreEpisode(item.title, item.contentSnippet || item.summary, currentService)
+    })).sort((a,b) => b.score - a.score || new Date(b.pubDate) - new Date(a.pubDate));
+
+    const top = scored.slice(0, 5);
+    if (status) status.textContent = 'Via Behind the Knife';
+
+    container.innerHTML = top.map(ep => `
+      <div class="podcast-episode" onclick="window.open('${ep.link||'https://behindtheknife.org'}','_blank')">
+        <div class="podcast-play">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
+        </div>
+        <div class="podcast-ep-body">
+          <div class="podcast-ep-title">${ep.title || 'Untitled'}</div>
+          <div class="podcast-ep-meta">Behind the Knife · ${formatPubDate(ep.pubDate)}</div>
+        </div>
+        <span class="podcast-ep-duration">${formatDuration(ep.duration || ep.itunes?.duration)}</span>
+      </div>
+    `).join('');
+
+  } catch(err) {
+    console.warn('BTK RSS fetch failed, showing fallback:', err);
+    container.innerHTML = `
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Lap Chole: Navigating the Critical View of Safety</div><div class="podcast-ep-meta">Behind the Knife · Hepatobiliary</div></div>
+        <span class="podcast-ep-duration">42 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Biliary Emergencies: Diagnosis and Management</div><div class="podcast-ep-meta">Behind the Knife · Hepatobiliary</div></div>
+        <span class="podcast-ep-duration">38 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Inguinal Hernia Repair: Open vs. Laparoscopic</div><div class="podcast-ep-meta">Behind the Knife · General Surgery</div></div>
+        <span class="podcast-ep-duration">51 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Managing the Difficult Cholecystectomy</div><div class="podcast-ep-meta">Behind the Knife · Hepatobiliary</div></div>
+        <span class="podcast-ep-duration">44 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">ABSITE Prep: High-Yield Surgery Topics</div><div class="podcast-ep-meta">Behind the Knife · General Surgery</div></div>
+        <span class="podcast-ep-duration">55 min</span>
+      </div>
+    `;
+    if (status) status.textContent = 'Showing recent episodes';
+  }
+}
+
+// ── PAPAPARSE — ACGME CSV Export ───────────────────────────────────────────
+function exportCasesCSV() {
+  const rows = [];
+  const tableRows = document.querySelectorAll('#cases-tbody tr');
+
+  tableRows.forEach((tr, i) => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length < 4) return;
+    const procedure = cells[0]?.textContent?.trim() || '';
+    const dateStr   = cells[1]?.textContent?.trim() || '';
+    const role      = cells[2]?.querySelector('.role-badge')?.textContent?.trim() || '';
+    const category  = cells[3]?.textContent?.trim() || '';
+
+    rows.push({
+      'Case ID':         `2026-${String(i+1).padStart(4,'0')}`,
+      'Case Date':       dateStr,
+      'PGY Year':        document.getElementById('f-pgy')?.value || '1',
+      'Rotation':        document.getElementById('service-label')?.textContent || 'General Surgery',
+      'Role':            role,
+      'Site':            'St. Michael\'s Hospital',
+      'Attending':       '',
+      'Patient Type':    'Adult',
+      'Defined Category': category !== '—' ? category : '',
+      'Procedure / CPT': procedure,
+      'Involved Trauma': 'No',
+      'Comments':        '',
+    });
+  });
+
+  if (rows.length === 0) {
+    showToast('No cases to export');
+    return;
+  }
+
+  const csv = Papa.unparse(rows, { quotes: true });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `guideflow-cases-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`Exported ${rows.length} cases`);
+}
+
+// ── DATE-FNS — Deadline countdowns ─────────────────────────────────────────
+function getDaysUntil(targetDateStr) {
+  const df = window.dateFns;
+  if (!df) return null;
+  const today = df.startOfDay(new Date());
+  const target = df.parseISO(targetDateStr);
+  return df.differenceInDays(target, today);
+}
+
+function formatDeadlineCountdown(days) {
+  if (days === null) return '';
+  if (days < 0) return 'Closed';
+  if (days === 0) return 'Due today';
+  if (days === 1) return '1 day left';
+  return days + ' days';
+}
+
+const conferenceDeadlines = [
+  { name:'SAGES Annual Meeting',   society:'SAGES', deadline:'2026-10-15', url:'https://www.sages.org/meetings/abstracts/' },
+  { name:'AHPBA Annual Meeting',   society:'AHPBA', deadline:'2026-09-15', url:'https://www.ahpba.org/annual-meeting/abstract-submission/' },
+  { name:'ASCRS Annual Meeting',   society:'ASCRS', deadline:'2026-10-20', url:'https://www.fascrs.org/annual-scientific-meeting/abstract-submission' },
+  { name:'SSO Annual Meeting',     society:'SSO',   deadline:'2026-11-01', url:'https://www.surgonc.org/annual-meeting/abstract-submission/' },
+  { name:'AAST Annual Meeting',    society:'AAST',  deadline:'2027-02-15', url:'https://www.aast.org/annual-meeting/Online-Abstract-Submission/' },
+  { name:'Academic Surgical Congress', society:'ASC', deadline:'2026-08-08', url:'https://www.academicsurgicalcongress.org/abstracts/' },
+  { name:'SVS Vascular Annual',    society:'SVS',   deadline:'2026-12-01', url:'https://vascular.org/meetings-events/vascular-annual-meeting/abstract-submission' },
+  { name:'ASBrS Annual Meeting',   society:'ASBrS', deadline:'2026-11-07', url:'https://www.breastsurgeons.org/meeting/abstracts/' },
+  { name:'STS Annual Meeting',     society:'STS',   deadline:'2026-07-15', url:'https://www.sts.org/meetings/annual-meeting/abstract-submission' },
+  { name:'ASTS Annual Meeting',    society:'ASTS',  deadline:'2026-10-01', url:'https://www.asts.org/meetings/annual-meeting/abstract-submission' },
+];
+
+function buildDeadlineSection() {
+  let container = document.getElementById('deadline-section');
+  if (!container) return;
+
+  const sorted = [...conferenceDeadlines]
+    .map(c => ({ ...c, days: getDaysUntil(c.deadline) }))
+    .filter(c => c.days !== null && c.days >= 0)
+    .sort((a,b) => a.days - b.days)
+    .slice(0, 4);
+
+  container.innerHTML = sorted.map(c => {
+    const urgent = c.days < 30;
+    return `
+      <div class="list-row" style="cursor:pointer" onclick="window.open('${c.url}','_blank')">
+        <span class="tag" style="flex-shrink:0;min-width:52px;text-align:center">${c.society}</span>
+        <div class="list-body">
+          <span class="list-name">${c.name}</span>
+          <span class="list-meta">Abstract deadline · ${new Date(c.deadline).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+        </div>
+        <span class="deadline-date ${urgent?'urgent':''}">${formatDeadlineCountdown(c.days)}</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </div>
+    `;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();navigate('home');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none';setTimeout(()=>{loadBTKFeed();buildDeadlineSection();},200)});
 function handleAddContact(btn){btn.disabled=true;btn.textContent='Adding...';setTimeout(function(){btn.disabled=false;btn.textContent='Add Contact';showToast('Contact added')},800)}
 (function(){var si=document.querySelector('.search-input');if(!si)return;si.addEventListener('input',function(){var q=si.value.trim().toLowerCase();var listRows=document.querySelectorAll('#list-view .list-row');var gridCards=document.querySelectorAll('#grid-view .guide-card');var matchCount=0;listRows.forEach(function(r){var name=r.querySelector('.list-name');var show=!q||name.textContent.toLowerCase().includes(q);r.style.display=show?'':'none';if(show)matchCount++});gridCards.forEach(function(c){var title=c.querySelector('.guide-title');var show=!q||title.textContent.toLowerCase().includes(q);c.style.display=show?'':'none'});var lv=document.getElementById('list-view');var gv=document.getElementById('grid-view');var existingEmpty=document.querySelectorAll('.empty-search');existingEmpty.forEach(function(e){e.remove()});if(q&&matchCount===0){var msg=document.createElement('div');msg.className='empty-search';msg.textContent='No guidelines found for "'+si.value.trim()+'"';lv.appendChild(msg.cloneNode(true));gv.appendChild(msg)}})})();
 // Keyboard support for role="button" elements and sidebar toggles
