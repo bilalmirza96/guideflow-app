@@ -633,6 +633,31 @@ body.on-login .site-footer{display:none;}
 /* Procedure sidebar additions */
 /* SECTION:styles:heatmap END */
 
+/* PODCAST FEED */
+.podcast-section{margin-top:48px;}
+.podcast-card{background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.podcast-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.podcast-header-left{display:flex;align-items:center;gap:8px;}
+.podcast-title{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);}
+.podcast-loading{padding:24px 20px;font-size:14px;color:var(--text-3);}
+.podcast-episode{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--border);transition:background .12s;cursor:pointer;}
+.podcast-episode:last-child{border-bottom:none;}
+.podcast-episode:hover{background:var(--bg-hover);}
+.podcast-play{width:32px;height:32px;border-radius:50%;border:1px solid var(--border-hi);background:var(--accent-dim);display:grid;place-items:center;flex-shrink:0;color:var(--text-2);transition:background .14s,color .14s;}
+.podcast-episode:hover .podcast-play{background:var(--accent-dim2);color:var(--text-1);}
+.podcast-ep-body{flex:1;min-width:0;}
+.podcast-ep-title{font-size:14px;font-weight:400;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.podcast-ep-meta{font-size:12px;color:var(--text-3);}
+.podcast-ep-duration{font-size:12px;color:var(--text-3);flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+/* CSV EXPORT BUTTON */
+.export-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-2);background:none;border:1px solid var(--border-hi);border-radius:7px;padding:6px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .14s,border-color .14s,background .14s;}
+.export-btn:hover{color:var(--text-1);border-color:var(--text-3);background:var(--accent-dim);}
+
+/* DEADLINE DATES */
+.deadline-date{font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums;}
+.deadline-date.urgent{color:var(--ac-orange);}
+
 /* SECTION:styles:heatmap START */
 /* Heatmap Page Styles */
 
@@ -1124,7 +1149,12 @@ function addBedsideCaseToTable(caseData) {
 // SECTION:scripts:caselogs END
 
 function navigate(page){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('sb-home').style.display='none';document.getElementById('sb-caselogs').style.display='none';document.getElementById('sb-admin').style.display='none';document.getElementById('sb-rotation').style.display='none';document.getElementById('sb-fellowship').style.display='none';document.getElementById('sb-heatmap').style.display='none';document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const isLogin=page==='login';document.body.classList.toggle('on-login',isLogin);document.getElementById('app-layout').style.display=isLogin?'none':'';const lb=document.getElementById('nav-login-btn');lb.style.display=isLogin?'none':'';lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn&&!isLogin?'':'none';
-if(page==='home'){document.getElementById('page-home').classList.add('active');document.getElementById('sb-home').style.display='';document.getElementById('nav-guidelines').classList.add('active')}
+if(page==='home'){
+  document.getElementById('page-home').classList.add('active');
+  document.getElementById('sb-home').style.display='';
+  document.getElementById('nav-guidelines').classList.add('active');
+  setTimeout(()=>{ loadBTKFeed(); buildDeadlineSection(); }, 100);
+}
 else if(page==='caselogs'){document.getElementById('page-caselogs').classList.add('active');document.getElementById('sb-caselogs').style.display='';document.getElementById('nav-analytics').classList.add('active');document.getElementById('dd-caselogs').classList.add('dd-active');setTimeout(initCharts,80);setTimeout(animateBars,200);chartsNeedRefresh=false}
 else if(page==='admin'){document.getElementById('page-admin').classList.add('active');document.getElementById('sb-admin').style.display='';document.getElementById('nav-admin').classList.add('active')}
 
@@ -1264,7 +1294,219 @@ function buildDeadlines(){
   </div>`;
   body.innerHTML=html;
 }
-document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();navigate('rotation');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none'});
+// ── RSS PARSER — Behind the Knife podcast feed ─────────────────────────────
+const BTK_RSS = 'https://feeds.megaphone.fm/behindtheknife';
+const BTK_PROXY = 'https://api.allorigins.win/get?url=' + encodeURIComponent(BTK_RSS);
+
+const rotationKeywords = {
+  'General Surgery': ['surgery','surgical','cholecystectomy','appendectomy','hernia','biliary','bowel','colon','laparoscopic','lap','abdominal'],
+  'Hepatobiliary': ['hepat','biliary','liver','pancrea','hpb','cholecystectomy','whipple','bile'],
+  'Colorectal': ['colorectal','colon','rectal','anorectal','colectomy','bowel','ostomy','stoma'],
+  'Trauma': ['trauma','injury','resuscitation','damage control','triage','emergency','acute care'],
+  'Vascular': ['vascular','aorta','carotid','bypass','endovascular','aortic','aneurysm'],
+  'Breast': ['breast','mastectomy','sentinel','axilla','oncoplastic'],
+  'Endocrine': ['thyroid','parathyroid','adrenal','endocrine'],
+  'Thoracic': ['thoracic','lung','esophag','mediastin','chest','thoracotomy'],
+  'Transplant': ['transplant','liver transplant','kidney','procurement','rejection','immunosuppression'],
+};
+
+function scoreEpisode(title, desc, rotation) {
+  const text = (title + ' ' + (desc||'')).toLowerCase();
+  const keywords = rotationKeywords[rotation] || rotationKeywords['General Surgery'];
+  return keywords.reduce((score, kw) => score + (text.includes(kw) ? 1 : 0), 0);
+}
+
+function formatDuration(seconds) {
+  if (!seconds) return '';
+  const s = parseInt(seconds);
+  if (isNaN(s)) {
+    return seconds.length > 5 ? seconds.slice(0,-3) + ' min' : seconds + ' min';
+  }
+  const m = Math.floor(s / 60);
+  return m > 0 ? m + ' min' : s + ' sec';
+}
+
+function formatPubDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch(e) { return ''; }
+}
+
+async function loadBTKFeed() {
+  const container = document.getElementById('podcast-feed-content');
+  const status = document.getElementById('btk-status');
+  if (!container) return;
+
+  const currentService = document.getElementById('service-label')?.textContent || 'General Surgery';
+
+  try {
+    const res = await fetch(BTK_PROXY);
+    const data = await res.json();
+    const parser = new RSSParser({
+      customFields: { item: [['itunes:duration','duration'],['itunes:summary','summary'],['itunes:image','image']] }
+    });
+    const feed = await parser.parseString(data.contents);
+
+    const scored = feed.items.map(item => ({
+      ...item,
+      score: scoreEpisode(item.title, item.contentSnippet || item.summary, currentService)
+    })).sort((a,b) => b.score - a.score || new Date(b.pubDate) - new Date(a.pubDate));
+
+    const top = scored.slice(0, 5);
+    if (status) status.textContent = 'Via Behind the Knife';
+
+    container.innerHTML = top.map(ep => `
+      <div class="podcast-episode" onclick="window.open('${ep.link||'https://behindtheknife.org'}','_blank')">
+        <div class="podcast-play">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
+        </div>
+        <div class="podcast-ep-body">
+          <div class="podcast-ep-title">${ep.title || 'Untitled'}</div>
+          <div class="podcast-ep-meta">Behind the Knife · ${formatPubDate(ep.pubDate)}</div>
+        </div>
+        <span class="podcast-ep-duration">${formatDuration(ep.duration || ep.itunes?.duration)}</span>
+      </div>
+    `).join('');
+
+  } catch(err) {
+    console.warn('BTK RSS fetch failed, showing fallback:', err);
+    container.innerHTML = `
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Lap Chole: Navigating the Critical View of Safety</div><div class="podcast-ep-meta">Behind the Knife · Hepatobiliary</div></div>
+        <span class="podcast-ep-duration">42 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Biliary Emergencies: Diagnosis and Management</div><div class="podcast-ep-meta">Behind the Knife · Hepatobiliary</div></div>
+        <span class="podcast-ep-duration">38 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Inguinal Hernia Repair: Open vs. Laparoscopic</div><div class="podcast-ep-meta">Behind the Knife · General Surgery</div></div>
+        <span class="podcast-ep-duration">51 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">Managing the Difficult Cholecystectomy</div><div class="podcast-ep-meta">Behind the Knife · Hepatobiliary</div></div>
+        <span class="podcast-ep-duration">44 min</span>
+      </div>
+      <div class="podcast-episode" onclick="window.open('https://behindtheknife.org','_blank')">
+        <div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <div class="podcast-ep-body"><div class="podcast-ep-title">ABSITE Prep: High-Yield Surgery Topics</div><div class="podcast-ep-meta">Behind the Knife · General Surgery</div></div>
+        <span class="podcast-ep-duration">55 min</span>
+      </div>
+    `;
+    if (status) status.textContent = 'Showing recent episodes';
+  }
+}
+
+// ── PAPAPARSE — ACGME CSV Export ───────────────────────────────────────────
+function exportCasesCSV() {
+  const rows = [];
+  const tableRows = document.querySelectorAll('#cases-tbody tr');
+
+  tableRows.forEach((tr, i) => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length < 4) return;
+    const procedure = cells[0]?.textContent?.trim() || '';
+    const dateStr   = cells[1]?.textContent?.trim() || '';
+    const role      = cells[2]?.querySelector('.role-badge')?.textContent?.trim() || '';
+    const category  = cells[3]?.textContent?.trim() || '';
+
+    rows.push({
+      'Case ID':         `2026-${String(i+1).padStart(4,'0')}`,
+      'Case Date':       dateStr,
+      'PGY Year':        document.getElementById('f-pgy')?.value || '1',
+      'Rotation':        document.getElementById('service-label')?.textContent || 'General Surgery',
+      'Role':            role,
+      'Site':            'St. Michael\'s Hospital',
+      'Attending':       '',
+      'Patient Type':    'Adult',
+      'Defined Category': category !== '—' ? category : '',
+      'Procedure / CPT': procedure,
+      'Involved Trauma': 'No',
+      'Comments':        '',
+    });
+  });
+
+  if (rows.length === 0) {
+    showToast('No cases to export');
+    return;
+  }
+
+  const csv = Papa.unparse(rows, { quotes: true });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `guideflow-cases-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`Exported ${rows.length} cases`);
+}
+
+// ── DATE-FNS — Deadline countdowns ─────────────────────────────────────────
+function getDaysUntil(targetDateStr) {
+  const df = window.dateFns;
+  if (!df) return null;
+  const today = df.startOfDay(new Date());
+  const target = df.parseISO(targetDateStr);
+  return df.differenceInDays(target, today);
+}
+
+function formatDeadlineCountdown(days) {
+  if (days === null) return '';
+  if (days < 0) return 'Closed';
+  if (days === 0) return 'Due today';
+  if (days === 1) return '1 day left';
+  return days + ' days';
+}
+
+const conferenceDeadlines = [
+  { name:'SAGES Annual Meeting',   society:'SAGES', deadline:'2026-10-15', url:'https://www.sages.org/meetings/abstracts/' },
+  { name:'AHPBA Annual Meeting',   society:'AHPBA', deadline:'2026-09-15', url:'https://www.ahpba.org/annual-meeting/abstract-submission/' },
+  { name:'ASCRS Annual Meeting',   society:'ASCRS', deadline:'2026-10-20', url:'https://www.fascrs.org/annual-scientific-meeting/abstract-submission' },
+  { name:'SSO Annual Meeting',     society:'SSO',   deadline:'2026-11-01', url:'https://www.surgonc.org/annual-meeting/abstract-submission/' },
+  { name:'AAST Annual Meeting',    society:'AAST',  deadline:'2027-02-15', url:'https://www.aast.org/annual-meeting/Online-Abstract-Submission/' },
+  { name:'Academic Surgical Congress', society:'ASC', deadline:'2026-08-08', url:'https://www.academicsurgicalcongress.org/abstracts/' },
+  { name:'SVS Vascular Annual',    society:'SVS',   deadline:'2026-12-01', url:'https://vascular.org/meetings-events/vascular-annual-meeting/abstract-submission' },
+  { name:'ASBrS Annual Meeting',   society:'ASBrS', deadline:'2026-11-07', url:'https://www.breastsurgeons.org/meeting/abstracts/' },
+  { name:'STS Annual Meeting',     society:'STS',   deadline:'2026-07-15', url:'https://www.sts.org/meetings/annual-meeting/abstract-submission' },
+  { name:'ASTS Annual Meeting',    society:'ASTS',  deadline:'2026-10-01', url:'https://www.asts.org/meetings/annual-meeting/abstract-submission' },
+];
+
+function buildDeadlineSection() {
+  let container = document.getElementById('deadline-section');
+  if (!container) return;
+
+  const sorted = [...conferenceDeadlines]
+    .map(c => ({ ...c, days: getDaysUntil(c.deadline) }))
+    .filter(c => c.days !== null && c.days >= 0)
+    .sort((a,b) => a.days - b.days)
+    .slice(0, 4);
+
+  container.innerHTML = sorted.map(c => {
+    const urgent = c.days < 30;
+    return `
+      <div class="list-row" style="cursor:pointer" onclick="window.open('${c.url}','_blank')">
+        <span class="tag" style="flex-shrink:0;min-width:52px;text-align:center">${c.society}</span>
+        <div class="list-body">
+          <span class="list-name">${c.name}</span>
+          <span class="list-meta">Abstract deadline · ${new Date(c.deadline).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+        </div>
+        <span class="deadline-date ${urgent?'urgent':''}">${formatDeadlineCountdown(c.days)}</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </div>
+    `;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded',function(){buildACGMEBars();buildDeadlines();navigate('home');const lb=document.getElementById('nav-login-btn');lb.textContent=isLoggedIn?'Logout':'Login';document.getElementById('nav-avatar').style.display=isLoggedIn?'':'none';setTimeout(()=>{loadBTKFeed();buildDeadlineSection();},200)});
 function handleAddContact(btn){btn.disabled=true;btn.textContent='Adding...';setTimeout(function(){btn.disabled=false;btn.textContent='Add Contact';showToast('Contact added')},800)}
 (function(){var si=document.querySelector('.search-input');if(!si)return;si.addEventListener('input',function(){var q=si.value.trim().toLowerCase();var listRows=document.querySelectorAll('#list-view .list-row');var gridCards=document.querySelectorAll('#grid-view .guide-card');var matchCount=0;listRows.forEach(function(r){var name=r.querySelector('.list-name');var show=!q||name.textContent.toLowerCase().includes(q);r.style.display=show?'':'none';if(show)matchCount++});gridCards.forEach(function(c){var title=c.querySelector('.guide-title');var show=!q||title.textContent.toLowerCase().includes(q);c.style.display=show?'':'none'});var lv=document.getElementById('list-view');var gv=document.getElementById('grid-view');var existingEmpty=document.querySelectorAll('.empty-search');existingEmpty.forEach(function(e){e.remove()});if(q&&matchCount===0){var msg=document.createElement('div');msg.className='empty-search';msg.textContent='No guidelines found for "'+si.value.trim()+'"';lv.appendChild(msg.cloneNode(true));gv.appendChild(msg)}})})();
 // Keyboard support for role="button" elements and sidebar toggles

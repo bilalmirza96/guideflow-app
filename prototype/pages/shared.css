@@ -625,5 +625,30 @@ body.on-login .site-footer{display:none;}
 /* Procedure sidebar additions */
 /* SECTION:styles:heatmap END */
 
+/* PODCAST FEED */
+.podcast-section{margin-top:48px;}
+.podcast-card{background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.podcast-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.podcast-header-left{display:flex;align-items:center;gap:8px;}
+.podcast-title{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);}
+.podcast-loading{padding:24px 20px;font-size:14px;color:var(--text-3);}
+.podcast-episode{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--border);transition:background .12s;cursor:pointer;}
+.podcast-episode:last-child{border-bottom:none;}
+.podcast-episode:hover{background:var(--bg-hover);}
+.podcast-play{width:32px;height:32px;border-radius:50%;border:1px solid var(--border-hi);background:var(--accent-dim);display:grid;place-items:center;flex-shrink:0;color:var(--text-2);transition:background .14s,color .14s;}
+.podcast-episode:hover .podcast-play{background:var(--accent-dim2);color:var(--text-1);}
+.podcast-ep-body{flex:1;min-width:0;}
+.podcast-ep-title{font-size:14px;font-weight:400;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.podcast-ep-meta{font-size:12px;color:var(--text-3);}
+.podcast-ep-duration{font-size:12px;color:var(--text-3);flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+/* CSV EXPORT BUTTON */
+.export-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-2);background:none;border:1px solid var(--border-hi);border-radius:7px;padding:6px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .14s,border-color .14s,background .14s;}
+.export-btn:hover{color:var(--text-1);border-color:var(--text-3);background:var(--accent-dim);}
+
+/* DEADLINE DATES */
+.deadline-date{font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums;}
+.deadline-date.urgent{color:var(--ac-orange);}
+
 /* Multi-page overrides */
 .page { display: block !important; animation: fadeUp .38s ease both; }
